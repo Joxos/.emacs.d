@@ -1,0 +1,12 @@
+*#
+*~
+.lsp-session-v1
+network-security.data
+places
+recentf
+transient/
+.cache/
+server/
+straight/
+history
+eshell/
