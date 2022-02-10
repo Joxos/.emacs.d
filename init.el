@@ -13,6 +13,9 @@
 
 ;;; BASIC SETTINGS
 
+;; recognize *.g4 as an antlr file
+(add-to-list 'auto-mode-alist '("\\.g4\\'" . antlr-mode))
+
 ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
 ;; Vertico commands are hidden in normal buffers.
 ;; (setq read-extended-command-predicate
@@ -275,12 +278,21 @@
   (add-hook 'orderless-style-dispatchers #'my/orderless-dispatch-flex-first nil 'local)
   (setq-local completion-at-point-functions (list (lsp-completion-at-point)))
   (setq lsp-idle-delay 0.1)
+  :config
+  ;; please compile the server project first!!!
+  (add-to-list 'lsp-language-id-configuration
+	       '(antlr-mode . "antlr"))
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection "~/.emacs.d/straight/repos/AntlrVSIX/Server/bin/Release/Server.exe") ;; change if needed!!!
+                    :activation-fn (lsp-activate-on "antlr")
+                    :server-id 'AntlrVSIX))
   :hook
   ((lsp-completion-mode . my/lsp-mode-setup-completion)
    (python-mode . (lambda ()
                          (require 'lsp-pyright)
                          (lsp)))
-   (c++-mode . lsp)))
+   (c++-mode . lsp)
+   (antlr-mode . lsp)))
 (use-package lsp-ui
   :straight t
   :config
@@ -288,10 +300,16 @@
   (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references))
 (use-package lsp-pyright
   :straight t)
+(straight-use-package
+ '(el-patch :type git :host github :repo "kaby76/AntlrVSIX"))
 (use-package yasnippet
   :straight t
-  :init
-  (yas-global-mode 1))
+  :hook ((prog-mode org-mode) . #'yas-minor-mode)
+  :config
+  (yas-reload-all))
+;; (use-package yasnippet-snippets
+;;   :straight t
+;;   :after yasnippet)
 ;; company
 ;; (use-package company-quickhelp
 ;;   :straight t
@@ -553,10 +571,10 @@
   (evilmi-load-plugin-rules '(mhtml-mode) '(template simple html)))
 
 ;; GIT
-(use-package git-gutter
-  :straight t
-  :init
-  (global-git-gutter-mode +1))
+;; (use-package git-gutter
+  ;; :straight t
+  ;; :init
+  ;; (global-git-gutter-mode +1))
 (use-package magit
   :straight t)
 
