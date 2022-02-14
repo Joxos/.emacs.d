@@ -37,6 +37,7 @@
 
 ;; ESC to quit
 (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
+(define-key key-translation-map [escape] (kbd "C-g"))
 
 ;; remap keys searching history in minibuffer
 ;; (define-key minibuffer-local-map (kbd "C-n") 'next-history-element)
@@ -108,8 +109,20 @@
 ;; close a pair automatically
 (add-hook 'after-init-hook 'electric-pair-mode)
 
-;; record the change of windows
+;; winner-mode
 (add-hook 'after-init-hook 'winner-mode)
+;; (defun transient-winner-undo ()
+;;   "Transient version of `winner-undo'."
+;;   (interactive)
+;;   (let ((echo-keystrokes nil))
+;;     (winner-undo)
+;;     (message "Winner: [u]ndo [r]edo")
+;;     (set-transient-map
+;;      (let ((map (make-sparse-keymap)))
+;;        (define-key map [?u] #'winner-undo)
+;;        (define-key map [?r] #'winner-redo)
+;;        map)
+;;      t)))
 
 ;; remember where we left
 (add-hook 'after-init-hook 'save-place-mode)
@@ -129,7 +142,6 @@
              (rust-mode "{" "}" "/[*/]" nil nil))))
 (defconst hideshow-folded-face '((t (:inherit 'font-lock-comment-face :box t))))
 (defun hideshow-folded-overlay-fn (ov)
-  "`OV', I don't know."
   (when (eq 'code (overlay-get ov 'hs))
     (let* ((nlines (count-lines (overlay-start ov) (overlay-end ov)))
 	   (info (format " ... #%d " nlines)))
@@ -145,11 +157,11 @@
 (add-hook 'after-init-hook 'global-auto-revert-mode)
 
 ;; recent files recorder
-(setq package-user-dir "~/.emacs.d/straight/")
 (defvar recentf-filename-handlers '(abbreviate-file-name))
-(defvar recentf-max-saved-items 100)
-(defvar recentf-max-menu-items 10)
-(defvar recentf-exclude `("COMMIT_EDITMSG\\'" "TAGS\\'" "/tmp/" "/ssh:" ,(concat package-user-dir "/.*-autoloads\\.el\\'")))
+;; (defvar recentf-exclude `("COMMIT_EDITMSG\\'" "TAGS\\'" "/tmp/" "/ssh:" ,(concat package-user-dir "/.*-autoloads\\.el\\'")))
+(defvar recentf-exclude `("/ssh:"
+                     "/TAGS\\'"
+                     "COMMIT_EDITMSG\\'"))
 (add-hook 'after-init-hook 'recentf-mode)
 
 ;; easy comment
@@ -223,17 +235,16 @@
 (straight-use-package 'use-package)
 
 ;; THEME
-(use-package gruvbox-theme
-  :straight t
-  :init
-  (load-theme 'gruvbox t))
+;; (use-package gruvbox-theme
+  ;; :straight t
+  ;; :init
+  ;; (load-theme 'gruvbox t))
 
 ;; COMPLETION
 (use-package corfu
   :straight t
   :bind (:map corfu-map
-	      ("TAB" . 'corfu-insert)
-	      ("<backtab>" . 'corfu-complete)
+	      ([tab] . 'corfu-insert)
               ("RET" . 'newline))
 
   ;; Optional customizations
@@ -249,17 +260,12 @@
   ;; (corfu-scroll-margin 5)        ;; Use scroll margin
 
   ;; You may want to enable Corfu only for certain modes.
-  :hook (((python-mode c++-mode shell-mode) . corfu-mode)
+  :hook (((emacs-lisp-mode python-mode c++-mode) . corfu-mode)
          (eshell-mode . (lambda ()
 			  (setq-local corfu-quit-at-boundary t
 				      corfu-quit-no-match t
 				      corfu-auto nil)
-			  (corfu-mode))))
-
-  ;; Recommended: Enable Corfu globally.
-  ;; This is recommended since dabbrev can be used globally (M-/).
-  :init
-  (corfu-global-mode))
+			  (corfu-mode)))))
 ;; Optionally use the `orderless' completion style. See `+orderless-dispatch'
 ;; in the Consult wiki for an advanced Orderless style dispatcher.
 ;; Enable `partial-completion' for files to allow path expansion.
@@ -549,11 +555,10 @@
   ;; (setq vertico-count 20)
 
   ;; Grow and shrink the Vertico minibuffer
-  ;; (setq vertico-resize t)
+  (setq vertico-resize t)
 
   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  ;; (setq vertico-cycle t)
-  )
+  (setq vertico-cycle t))
 (use-package orderless
   :straight t
   :init
@@ -571,23 +576,20 @@
 ;; EVIL
 (use-package evil
   :straight t
-  :bind ((:map evil-motion-state-map
-               ("f" . 'evil-avy-goto-char-in-line)
-               ("F" . 'evil-avy-goto-char-in-line))
-         (:map evil-normal-state-map
+  :bind ((:map evil-normal-state-map
                ("gl" . 'evil-avy-goto-line)
                ("gc" . 'evil-avy-goto-char)
 	       (":" . 'execute-extended-command)))
-  ;; :init
-  ;; (setq evil-want-keybinding nil)
+  :init
+  (setq evil-want-keybinding nil)
   :config
   (evil-mode t))
-;; (use-package evil-collection
-;;   :straight t
-;;   :after evil
-;;   :custom ((evil-collection-company-setup t))
-;;   :config
-;;   (evil-collection-init))
+(use-package evil-collection
+  :straight t
+  :after evil
+  :custom ((evil-collection-company-setup t))
+  :config
+  (evil-collection-init))
 (use-package evil-leader
   :straight t
   :after evil
@@ -597,12 +599,11 @@
   (evil-leader/set-key
     ;; basic
     ;; "af" 'lsp-format-buffer
-    "w" 'save-buffer
     "b" 'consult-buffer
     "p" 'consult-yank-pop
     "q" 'save-buffers-kill-emacs
     "i" 'indent-region
-    "o" 'ace-window
+    "o" 'other-window
     "s" 'consult-line
     "t" 'treemacs-select-window
     "g" 'magit
@@ -614,9 +615,12 @@
     "1" 'delete-other-windows
     "2" 'split-window-below
     "3" 'split-window-right
+    "wu" 'winner-undo
+    "wr" 'winner-redo
 
     ;; file
     "ff" 'find-file
+    "fs" 'save-buffer
     "fd" 'delete-current-file
     "fR" 'rename-current-file
     "fr" 'consult-recent-file
@@ -650,9 +654,7 @@
   (add-hook 'after-init-hook #'global-flycheck-mode))
 (use-package ace-window
   :straight t
-  :bind ("C-x o" . 'ace-window)
-  :init
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+  :bind ("C-x o" . 'ace-window))
 (use-package treemacs
   :straight t
   :defer t
