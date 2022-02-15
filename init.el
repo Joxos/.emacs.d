@@ -10,6 +10,7 @@
 ;; OPTIMIZE GC
 (defvar original-gc-cons-threshold gc-cons-threshold)
 (setq gc-cons-threshold most-positive-fixnum)
+(setq gc-cons-percentage 0.5)
 
 ;;; BASIC SETTINGS
 
@@ -90,19 +91,19 @@
 
 ;; display line numbers
 (defvar display-line-numbers-type 'absolute)
-(add-hook 'after-init-hook 'global-display-line-numbers-mode)
+(global-display-line-numbers-mode)
 
 ;; move the mouse when the cursor gets too close to it
 (mouse-avoidance-mode 'exile)
 
 ;; indent automatically
-(add-hook 'after-init-hook 'electric-indent-mode)
+(electric-indent-mode)
 
 ;; close a pair automatically
-(add-hook 'after-init-hook 'electric-pair-mode)
+(electric-pair-mode)
 
 ;; winner-mode
-(add-hook 'after-init-hook 'winner-mode)
+(winner-mode)
 ;; (defun transient-winner-undo ()
 ;;   "Transient version of `winner-undo'."
 ;;   (interactive)
@@ -298,67 +299,11 @@
 (use-package lsp-pyright
   :straight t)
 (straight-use-package
- '(el-patch :type git :host github :repo "kaby76/AntlrVSIX"))
+ '(AntlrVSIX :type git :host github :repo "kaby76/AntlrVSIX"))
 (use-package yasnippet
   :straight t
   :hook ((prog-mode org-mode) . #'yas-minor-mode)
   :config
-  ;; (defun check-expansion ()
-  ;;   (save-excursion
-  ;;     (if (looking-at "\\_>") t
-  ;; 	(backward-char 1)
-  ;; 	(if (looking-at "\\.") t
-  ;; 	  (backward-char 1)
-  ;; 	  (if (looking-at "->") t nil)))))
-  ;; (defun do-yas-expand ()
-  ;;   (let ((yas/fallback-behavior 'return-nil))
-  ;;     (yas/expand)))
-  ;; (defun tab-indent-or-complete ()
-  ;;   (interactive)
-  ;;   (cond
-  ;;    ((minibufferp)
-  ;;     (minibuffer-complete))
-  ;;    (t
-  ;;     (indent-for-tab-command)
-  ;;     (if (or (not yas/minor-mode)
-  ;;             (null (do-yas-expand)))
-  ;; 	  (if (check-expansion)
-  ;;             (progn
-  ;; 		(company-manual-begin)
-  ;; 		(if (null company-candidates)
-  ;; 		    (progn
-  ;; 		      (company-abort)
-  ;; 		      (indent-for-tab-command)))))))))
-  ;; (defun tab-complete-or-next-field ()
-  ;;   (interactive)
-  ;;   (if (or (not yas/minor-mode)
-  ;; 	    (null (do-yas-expand)))
-  ;; 	(if company-candidates
-  ;; 	    (company-complete-selection)
-  ;; 	  (if (check-expansion)
-  ;; 	      (progn
-  ;; 		(company-manual-begin)
-  ;; 		(if (null company-candidates)
-  ;; 		    (progn
-  ;; 		      (company-abort)
-  ;; 		      (yas-next-field))))
-  ;; 	    (yas-next-field)))))
-  ;; (defun expand-snippet-or-complete-selection ()
-  ;;   (interactive)
-  ;;   (if (or (not yas/minor-mode)
-  ;; 	    (null (do-yas-expand))
-  ;; 	    (company-abort))
-  ;; 	(company-complete-selection)))
-  ;; (defun abort-company-or-yas ()
-  ;;   (interactive)
-  ;;   (if (null company-candidates)
-  ;; 	(yas-abort-snippet)
-  ;;     (company-abort)))
-  ;; (global-set-key [tab] 'tab-indent-or-complete)
-  ;; (global-set-key (kbd "TAB") 'tab-indent-or-complete)
-  ;; (global-set-key [(control return)] 'company-complete-common)
-  ;; (define-key company-active-map [tab] 'expand-snippet-or-complete-selection)
-  ;; (define-key company-active-map (kbd "TAB") 'expand-snippet-or-complete-selection)
   (define-key yas-keymap [tab] nil)
   (define-key yas-keymap (kbd "C-n") 'yas-next-field)
   (define-key yas-keymap (kbd "C-p") 'yas-prev-field)
@@ -367,42 +312,6 @@
 ;; (use-package yasnippet-snippets
 ;;   :straight t
 ;;   :after yasnippet)
-;; company
-;; (use-package company-quickhelp
-;;   :straight t
-;;   :hook (company-mode . company-quickhelp-mode)
-;;   :init
-;;   (setq company-quickhelp-delay 0)
-;;   (setq company-quickhelp-max-lines 10))
-;; (use-package company-jedi
-;;   :straight t)
-;; (use-package company-mode
-;;   :straight t
-;;   :hook ((prog-mode . company-mode)
-;; 	 (css-mode . (lambda ()
-;; 		       (setq company-backends '((company-css)))))
-;; 	 (emacs-lisp-mode . (lambda ()
-;; 			      (setq company-backends '((company-elisp)))))
-;; 	 (c++-mode . (lambda ()
-;; 		       (setq company-backends '((company-clang)))))
-;; 	 (python-mode . (lambda ()
-;; 			  (setq company-backends '((company-jedi))))))
-;;   :bind ("C-c /" . 'company-files)
-;;   :init
-;;   (defvar company-minimum-prefix-length 1)
-;;   (defvar company-idle-delay 0)
-;;   (defvar company-show-numbers t)
-;;   (setq company-backends '((company-capf company-keywords))))
-;; (use-package counsel
-;;   :straight t
-;;   :config
-;;   (setq ivy-use-virtual-buffers t)
-;;   (setq ivy-count-format "(%d/%d) ")
-;;   (ivy-mode t))
-;; (use-package ivy-rich
-;;   :straight t
-;;   :config
-;;   (ivy-rich-mode t))
 ;; Example configuration for Consult
 (use-package consult
   :straight t
@@ -452,36 +361,28 @@
   ;;        ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
   ;;        ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
   ;;        ("M-s L" . consult-line-multi))           ;; needed by consult-line to detect isearch
-
   ;; Enable automatic preview at point in the *Completions* buffer. This is
   ;; relevant when you use the default completion UI. You may want to also
   ;; enable `consult-preview-at-point-mode` in Embark Collect buffers.
   :hook (completion-list-mode . consult-preview-at-point-mode)
-
   ;; The :init configuration is always executed (Not lazy)
   :init
-
   ;; Optionally configure the register formatting. This improves the register
   ;; preview for `consult-register', `consult-register-load',
   ;; `consult-register-store' and the Emacs built-ins.
   (setq register-preview-delay 0
         register-preview-function #'consult-register-format)
-
   ;; Optionally tweak the register preview window.
   ;; This adds thin lines, sorting and hides the mode line of the window.
   (advice-add #'register-preview :override #'consult-register-window)
-
   ;; Optionally replace `completing-read-multiple' with an enhanced version.
   (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)
-
   ;; Use Consult to select xref locations with preview
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
-
   ;; Configure other variables and modes in the :config section,
   ;; after lazily loading the package.
   :config
-
   ;; Optionally configure preview. The default value
   ;; is 'any, such that any key triggers the preview.
   ;; (setq consult-preview-key 'any)
@@ -496,15 +397,12 @@
    consult-bookmark consult-recent-file consult-xref
    consult--source-recent-file consult--source-project-recent-file consult--source-bookmark
    :preview-key (kbd "M-."))
-
   ;; Optionally configure the narrowing key.
   ;; Both < and C-+ work reasonably well.
   (setq consult-narrow-key "<") ;; (kbd "C-+")
-
   ;; Optionally make narrowing help available in the minibuffer.
   ;; You may want to use `embark-prefix-help-command' or which-key instead.
   ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
-
   ;; Optionally configure a function which returns the project root directory.
   ;; There are multiple reasonable alternatives to chose from.
   ;;;; 1. project.el (project-roots)
@@ -647,12 +545,16 @@
   :straight t
   :bind ("C-x o" . 'ace-window))
 (use-package dired
-  :config
-  (setq delete-by-moving-to-trash t)
-  ;; (setq dired-dwim-target t)
-  ;; (setq dired-listing-switches
-  ;;       "-AGhlv --group-directories-first --time-style=long-iso")
-  )
+  :bind
+  (:map dired-mode-map
+        ("SPC" . dirvish-show-history)
+        ("f"   . dirvish-menu-file-info-cmds)
+        ("r"   . dirvish-roam)
+        ("M-c" . dirvish-ui-config)
+        ("M-m" . dirvish-toggle-fullscreen)
+        ([remap dired-summary] . dirvish-dispatch)
+        ([remap dired-do-copy] . dirvish-yank)
+        ([remap mode-line-other-buffer] . dirvish-other-buffer)))
 (use-package dirvish
   :straight t)
 
