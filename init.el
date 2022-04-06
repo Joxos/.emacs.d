@@ -17,10 +17,6 @@
 ;; recognize *.g4 as an antlr file
 (add-to-list 'auto-mode-alist '("\\.g4\\'" . antlr-mode))
 
-;; recognize *.vue as an vue file
-(define-generic-mode vue-mode nil nil nil nil nil)
-(add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
-
 ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
 ;; Vertico commands are hidden in normal buffers.
 ;; (setq read-extended-command-predicate
@@ -79,14 +75,14 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; auto indent regexp
-;(setq adaptive-fill-regexp "[ \t]+\\|[ \t]*\\([0-9]+\\.\\|\\*+\\)[ \t]*")
+					;(setq adaptive-fill-regexp "[ \t]+\\|[ \t]*\\([0-9]+\\.\\|\\*+\\)[ \t]*")
 
 ;; set the indent of python
 (defvar python-indent-offset 4)
 
 ;; assign the checker path manually
 ;; TODO: change it when needed
-;(defvar flycheck-python-flake8-executable "C:/Users/Joxos/AppData/Local/Programs/Python/Python39/Scripts/flake8.exe")
+					;(defvar flycheck-python-flake8-executable "C:/Users/Joxos/AppData/Local/Programs/Python/Python39/Scripts/flake8.exe")
 
 ;; make emacs cleaner
 (tool-bar-mode 0)
@@ -134,9 +130,9 @@
 (define-key prog-mode-map (kbd "M-}") 'hs-show-all)
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 (defvar hs-special-modes-alist (mapcar 'purecopy
-           '((c-mode "{" "}" "/[*/]" nil nil)
-             (c++-mode "{" "}" "/[*/]" nil nil)
-             (rust-mode "{" "}" "/[*/]" nil nil))))
+				       '((c-mode "{" "}" "/[*/]" nil nil)
+					 (c++-mode "{" "}" "/[*/]" nil nil)
+					 (rust-mode "{" "}" "/[*/]" nil nil))))
 (defconst hideshow-folded-face '((t (:inherit 'font-lock-comment-face :box t))))
 (defun hideshow-folded-overlay-fn (ov)
   (when (eq 'code (overlay-get ov 'hs))
@@ -157,8 +153,8 @@
 (defvar recentf-filename-handlers '(abbreviate-file-name))
 ;; (defvar recentf-exclude `("COMMIT_EDITMSG\\'" "TAGS\\'" "/tmp/" "/ssh:" ,(concat package-user-dir "/.*-autoloads\\.el\\'")))
 (defvar recentf-exclude `("/ssh:"
-                     "/TAGS\\'"
-                     "COMMIT_EDITMSG\\'"))
+			  "/TAGS\\'"
+			  "COMMIT_EDITMSG\\'"))
 (add-hook 'after-init-hook 'recentf-mode)
 
 ;; easy comment
@@ -233,9 +229,9 @@
 
 ;; THEME
 ;; (use-package gruvbox-theme
-  ;; :straight t
-  ;; :init
-  ;; (load-theme 'gruvbox t))
+;; :straight t
+;; :init
+;; (load-theme 'gruvbox t))
 
 ;; EVIL
 (use-package evil
@@ -317,7 +313,7 @@
   ;; (corfu-scroll-margin 5)        ;; Use scroll margin
 
   ;; You may want to enable Corfu only for certain modes.
-  :hook (((emacs-lisp-mode python-mode c++-mode) . corfu-mode)
+  :hook (((emacs-lisp-mode python-mode c++-mode vue-mode) . corfu-mode)
          (eshell-mode . (lambda ()
 			  (setq-local corfu-quit-at-boundary t
 				      corfu-quit-no-match t
@@ -327,6 +323,11 @@
 ;; in the Consult wiki for an advanced Orderless style dispatcher.
 ;; Enable `partial-completion' for files to allow path expansion.
 ;; You may prefer to use `initials' instead of `partial-completion'.
+(use-package dabbrev
+  :straight t
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+	 ("C-i" . dabbrev-completion)))
 (use-package lsp-mode
   :straight t
   :custom
@@ -351,9 +352,12 @@
   :hook
   ((lsp-completion-mode . my/lsp-mode-setup-completion)
    (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (lsp)))
+                    (require 'lsp-pyright)
+                    (lsp)))
    ((c++-mode vue-mode antlr-mode typescript-mode) . lsp)))
+(add-hook 'mmm-mode-hook
+          (lambda ()
+            (set-face-background 'mmm-default-submode-face nil)))
 (use-package lsp-ui
   :straight t
   :config
@@ -370,6 +374,8 @@
          (typescript-mode . tide-hl-identifier-mode)
 	 (typescript-mode . corfu-mode)
          (before-save . tide-format-before-save)))
+(use-package vue-mode
+  :straight t)
 (use-package yasnippet
   :straight t
   :hook ((prog-mode org-mode text-mode) . #'yas-minor-mode)
@@ -534,9 +540,9 @@
 
 ;; GIT
 ;; (use-package git-gutter
-  ;; :straight t
-  ;; :init
-  ;; (global-git-gutter-mode +1))
+;; :straight t
+;; :init
+;; (global-git-gutter-mode +1))
 (use-package magit
   :straight t)
 
