@@ -17,6 +17,10 @@
 ;; recognize *.g4 as an antlr file
 (add-to-list 'auto-mode-alist '("\\.g4\\'" . antlr-mode))
 
+;; recognize *.vue as an vue file
+(define-generic-mode vue-mode nil nil nil nil nil)
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
+
 ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
 ;; Vertico commands are hidden in normal buffers.
 ;; (setq read-extended-command-predicate
@@ -233,6 +237,66 @@
   ;; :init
   ;; (load-theme 'gruvbox t))
 
+;; EVIL
+(use-package evil
+  :straight t
+  :bind ((:map evil-normal-state-map
+               ("gl" . 'evil-avy-goto-line)
+               ("gc" . 'evil-avy-goto-char)
+	       (":" . 'execute-extended-command)))
+  :init
+  (setq evil-want-keybinding nil)
+  :config
+  (evil-set-undo-system 'undo-tree)
+  (evil-mode t))
+(use-package evil-collection
+  :straight t
+  :after evil
+  :custom ((evil-collection-company-setup t))
+  :config
+  (evil-collection-init))
+(use-package evil-matchit
+  :straight t
+  :after evil
+  :config
+  (global-evil-matchit-mode 1)
+  (evilmi-load-plugin-rules '(mhtml-mode) '(template simple html)))
+(use-package evil-leader
+  :straight t
+  :after evil
+  :config
+  (evil-leader/set-leader "<SPC>")
+  ;; (hook) key action
+  (evil-leader/set-key
+    ;; basic
+    ;; "af" 'lsp-format-buffer
+    "b" 'consult-buffer
+    "p" 'consult-yank-pop
+    "q" 'save-buffers-kill-emacs
+    "i" 'indent-region
+    "o" 'ace-window
+    "s" 'consult-line
+    "g" 'magit
+    ";" 'comment-or-uncomment
+    "=" 'balance-windows
+
+    ;; window
+    "0" 'delete-window
+    "1" 'delete-other-windows
+    "2" 'split-window-below
+    "3" 'split-window-right
+    "wu" 'winner-undo
+    "wr" 'winner-redo
+
+    ;; file
+    "ff" 'find-file
+    "fs" 'save-buffer
+    "fd" 'delete-current-file
+    "fR" 'rename-current-file
+    "fr" 'consult-recent-file
+    "fo" 'open-current-file)
+  (global-evil-leader-mode))
+
 ;; COMPLETION
 (use-package corfu
   :straight t
@@ -281,7 +345,7 @@
   (add-to-list 'lsp-language-id-configuration
 	       '(antlr-mode . "antlr"))
   (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection "~/.emacs.d/straight/repos/AntlrVSIX/Server/bin/Release/Server.exe") ;; change if needed!!!
+   (make-lsp-client :new-connection (lsp-stdio-connection "~/.emacs.d/AntlrVSIX/Server.exe") ;; change if needed!!!
                     :activation-fn (lsp-activate-on "antlr")
                     :server-id 'AntlrVSIX))
   :hook
@@ -289,8 +353,7 @@
    (python-mode . (lambda ()
                          (require 'lsp-pyright)
                          (lsp)))
-   (c++-mode . lsp)
-   (antlr-mode . lsp)))
+   ((c++-mode vue-mode antlr-mode typescript-mode) . lsp)))
 (use-package lsp-ui
   :straight t
   :config
@@ -298,16 +361,22 @@
   (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references))
 (use-package lsp-pyright
   :straight t)
-(straight-use-package
- '(AntlrVSIX :type git :host github :repo "kaby76/AntlrVSIX"))
+;; (straight-use-package
+;;  '(AntlrVSIX :type git :host github :repo "kaby76/AntlrVSIX"))
+(use-package tide
+  :straight t
+  :after (typescript-mode corfu flycheck)
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode)
+	 (typescript-mode . corfu-mode)
+         (before-save . tide-format-before-save)))
 (use-package yasnippet
   :straight t
-  :hook ((prog-mode org-mode) . #'yas-minor-mode)
+  :hook ((prog-mode org-mode text-mode) . #'yas-minor-mode)
   :config
   (define-key yas-keymap [tab] nil)
   (define-key yas-keymap (kbd "C-n") 'yas-next-field)
   (define-key yas-keymap (kbd "C-p") 'yas-prev-field)
-
   (yas-reload-all))
 ;; (use-package yasnippet-snippets
 ;;   :straight t
@@ -463,65 +532,6 @@
   :init
   (savehist-mode))
 
-;; EVIL
-(use-package evil
-  :straight t
-  :bind ((:map evil-normal-state-map
-               ("gl" . 'evil-avy-goto-line)
-               ("gc" . 'evil-avy-goto-char)
-	       (":" . 'execute-extended-command)))
-  :init
-  (setq evil-want-keybinding nil)
-  :config
-  (evil-mode t))
-(use-package evil-collection
-  :straight t
-  :after evil
-  :custom ((evil-collection-company-setup t))
-  :config
-  (evil-collection-init))
-(use-package evil-leader
-  :straight t
-  :after evil
-  :config
-  (evil-leader/set-leader "<SPC>")
-  ;; (hook) key action
-  (evil-leader/set-key
-    ;; basic
-    ;; "af" 'lsp-format-buffer
-    "b" 'consult-buffer
-    "p" 'consult-yank-pop
-    "q" 'save-buffers-kill-emacs
-    "i" 'indent-region
-    "o" 'other-window
-    "s" 'consult-line
-    "g" 'magit
-    ";" 'comment-or-uncomment
-    "=" 'balance-windows
-
-    ;; window
-    "0" 'delete-window
-    "1" 'delete-other-windows
-    "2" 'split-window-below
-    "3" 'split-window-right
-    "wu" 'winner-undo
-    "wr" 'winner-redo
-
-    ;; file
-    "ff" 'find-file
-    "fs" 'save-buffer
-    "fd" 'delete-current-file
-    "fR" 'rename-current-file
-    "fr" 'consult-recent-file
-    "fo" 'open-current-file)
-  (global-evil-leader-mode))
-(use-package evil-matchit
-  :straight t
-  :after evil
-  :config
-  (global-evil-matchit-mode 1)
-  (evilmi-load-plugin-rules '(mhtml-mode) '(template simple html)))
-
 ;; GIT
 ;; (use-package git-gutter
   ;; :straight t
@@ -530,7 +540,7 @@
 (use-package magit
   :straight t)
 
-;; OTHERS
+;; Others
 ;; (use-package which-key
 ;;   :straight t
 ;;   :init
@@ -543,20 +553,27 @@
   (add-hook 'after-init-hook #'global-flycheck-mode))
 (use-package ace-window
   :straight t
-  :bind ("C-x o" . 'ace-window))
-(use-package dired
-  :bind
-  (:map dired-mode-map
-        ("SPC" . dirvish-show-history)
-        ("f"   . dirvish-menu-file-info-cmds)
-        ("r"   . dirvish-roam)
-        ("M-c" . dirvish-ui-config)
-        ("M-m" . dirvish-toggle-fullscreen)
-        ([remap dired-summary] . dirvish-dispatch)
-        ([remap dired-do-copy] . dirvish-yank)
-        ([remap mode-line-other-buffer] . dirvish-other-buffer)))
-(use-package dirvish
-  :straight t)
+  :init
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+  ;; :bind ("C-x o" . 'ace-window)
+  )
+;; (use-package dired
+;;   :bind
+;;   (:map dired-mode-map
+;;         ("SPC" . dirvish-show-history)
+;;         ("f"   . dirvish-menu-file-info-cmds)
+;;         ("r"   . dirvish-roam)
+;;         ("M-c" . dirvish-ui-config)
+;;         ("M-m" . dirvish-toggle-fullscreen)
+;;         ([remap dired-summary] . dirvish-dispatch)
+;;         ([remap dired-do-copy] . dirvish-yank)
+;;         ([remap mode-line-other-buffer] . dirvish-other-buffer)))
+;; (use-package dirvish
+;;   :straight t)
+(use-package undo-tree
+  :straight t
+  :config
+  (global-undo-tree-mode))
 
 ;; RESET GC
 (setq gc-cons-threshold original-gc-cons-threshold)
