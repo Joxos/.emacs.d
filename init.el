@@ -17,27 +17,11 @@
 ;; recognize *.g4 as an antlr file
 (add-to-list 'auto-mode-alist '("\\.g4\\'" . antlr-mode))
 
-;; Emacs 28: Hide commands in M-x which do not work in the current mode.
-;; Vertico commands are hidden in normal buffers.
-;; (setq read-extended-command-predicate
-;;       #'command-completion-default-include-p)
-
-;; Do not allow the cursor in the minibuffer prompt
-;; (setq minibuffer-prompt-properties
-;;       '(read-only t cursor-intangible t face minibuffer-prompt))
-;; (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-
-;; Add prompt indicator to `completing-read-multiple'.
-;; Alternatively try `consult-completing-read-multiple'.
-;; (defun crm-indicator (args)
-;;   (cons (concat "[CRM] " (car args)) (cdr args)))
-;; (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-
 ;; Enable recursive minibuffers
 ;; (setq enable-recursive-minibuffers t)
 
 ;; show buffer name as window title
-;; (setq frame-title-format "%b")
+(setq frame-title-format "Emacs")
 
 ;; some personal settings
 (setq user-full-name "Joxos")
@@ -75,14 +59,10 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; auto indent regexp
-					;(setq adaptive-fill-regexp "[ \t]+\\|[ \t]*\\([0-9]+\\.\\|\\*+\\)[ \t]*")
+;; (setq adaptive-fill-regexp "[ \t]+\\|[ \t]*\\([0-9]+\\.\\|\\*+\\)[ \t]*")
 
 ;; set the indent of python
-(defvar python-indent-offset 4)
-
-;; assign the checker path manually
-;; TODO: change it when needed
-					;(defvar flycheck-python-flake8-executable "C:/Users/Joxos/AppData/Local/Programs/Python/Python39/Scripts/flake8.exe")
+;; (setq python-indent-offset 4)
 
 ;; make emacs cleaner
 (tool-bar-mode 0)
@@ -93,8 +73,8 @@
 (defvar display-line-numbers-type 'absolute)
 (global-display-line-numbers-mode)
 
-;; move the mouse when the cursor gets too close to it
-(mouse-avoidance-mode 'exile)
+;; move the mouse to the corner only if the cursor gets too close
+(mouse-avoidance-mode 'banish)
 
 ;; indent automatically
 (electric-indent-mode)
@@ -245,12 +225,12 @@
   :config
   (evil-set-undo-system 'undo-tree)
   (evil-mode t))
-(use-package evil-collection
-  :straight t
-  :after evil
-  :custom ((evil-collection-company-setup t))
-  :config
-  (evil-collection-init))
+;; (use-package evil-collection
+;;   :straight t
+;;   :after evil
+;;   :custom ((evil-collection-company-setup t))
+;;   :config
+;;   (evil-collection-init))
 (use-package evil-matchit
   :straight t
   :after evil
@@ -265,7 +245,6 @@
   ;; (hook) key action
   (evil-leader/set-key
     ;; basic
-    ;; "af" 'lsp-format-buffer
     "b" 'consult-buffer
     "p" 'consult-yank-pop
     "q" 'save-buffers-kill-emacs
@@ -275,6 +254,10 @@
     "g" 'magit
     ";" 'comment-or-uncomment
     "=" 'balance-windows
+
+    ;; lsp related
+    "af" 'lsp-bridge-code-format
+    "rn" 'lsp-bridge-rename
 
     ;; window
     "0" 'delete-window
@@ -294,99 +277,55 @@
   (global-evil-leader-mode))
 
 ;; COMPLETION
-(use-package corfu
-  :straight t
-  :bind (:map corfu-map
-	      ([tab] . 'corfu-insert)
-              ("RET" . 'newline))
+;; (use-package corfu
+;;   :straight t
+;;   :bind (:map corfu-map
+;; 	      ([tab] . 'corfu-insert)
+;;               ("RET" . 'newline))
 
-  ;; Optional customizations
-  :custom
-  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  (corfu-auto t)                 ;; Enable auto completion
-  ;; (corfu-commit-predicate nil)   ;; Do not commit selected candidates on next input
-  (corfu-quit-at-boundary t)     ;; Automatically quit at word boundary
-  (corfu-quit-no-match t)        ;; Automatically quit if there is no match
-  (corfu-preview-current nil)    ;; Disable current candidate preview
-  ;; (corfu-preselect-first nil)    ;; Disable candidate preselection
-  ;; (corfu-echo-documentation nil) ;; Disable documentation in the echo area
-  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+;;   ;; Optional customizations
+;;   :custom
+;;   ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+;;   (corfu-auto t)                 ;; Enable auto completion
+;;   ;; (corfu-commit-predicate nil)   ;; Do not commit selected candidates on next input
+;;   (corfu-quit-at-boundary t)     ;; Automatically quit at word boundary
+;;   (corfu-quit-no-match t)        ;; Automatically quit if there is no match
+;;   (corfu-preview-current nil)    ;; Disable current candidate preview
+;;   ;; (corfu-preselect-first nil)    ;; Disable candidate preselection
+;;   ;; (corfu-echo-documentation nil) ;; Disable documentation in the echo area
+;;   ;; (corfu-scroll-margin 5)        ;; Use scroll margin
 
-  ;; You may want to enable Corfu only for certain modes.
-  :hook (((emacs-lisp-mode python-mode c++-mode vue-mode) . corfu-mode)
-         (eshell-mode . (lambda ()
-			  (setq-local corfu-quit-at-boundary t
-				      corfu-quit-no-match t
-				      corfu-auto nil)
-			  (corfu-mode)))))
-;; Optionally use the `orderless' completion style. See `+orderless-dispatch'
-;; in the Consult wiki for an advanced Orderless style dispatcher.
-;; Enable `partial-completion' for files to allow path expansion.
-;; You may prefer to use `initials' instead of `partial-completion'.
-(use-package dabbrev
-  :straight t
-  ;; Swap M-/ and C-M-/
-  :bind (("M-/" . dabbrev-completion)
-	 ("C-i" . dabbrev-completion)))
-(use-package lsp-mode
-  :straight t
-  :custom
-  (lsp-completion-provider :none)
-  :init
-  (defun my/orderless-dispatch-flex-first (_pattern index _total)
-    (and (eq index 0) 'orderless-flex))
-  (defun my/lsp-mode-setup-completion ()
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless))  (setq lsp-mode t))
-  (add-hook 'orderless-style-dispatchers #'my/orderless-dispatch-flex-first nil 'local)
-  (setq-local completion-at-point-functions (list (lsp-completion-at-point)))
-  (setq lsp-idle-delay 0.1)
-  :config
-  ;; please compile the server project first!!!
-  (add-to-list 'lsp-language-id-configuration
-	       '(antlr-mode . "antlr"))
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection "~/.emacs.d/AntlrVSIX/Server.exe") ;; change if needed!!!
-                    :activation-fn (lsp-activate-on "antlr")
-                    :server-id 'AntlrVSIX))
-  :hook
-  ((lsp-completion-mode . my/lsp-mode-setup-completion)
-   (python-mode . (lambda ()
-                    (require 'lsp-pyright)
-                    (lsp)))
-   ((c++-mode vue-mode antlr-mode typescript-mode) . lsp)))
-(add-hook 'mmm-mode-hook
-          (lambda ()
-            (set-face-background 'mmm-default-submode-face nil)))
-(use-package lsp-ui
-  :straight t
-  :config
-  (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
-  (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references))
-(use-package lsp-pyright
-  :straight t)
-;; (straight-use-package
-;;  '(AntlrVSIX :type git :host github :repo "kaby76/AntlrVSIX"))
-(use-package tide
-  :straight t
-  :after (typescript-mode corfu flycheck)
-  :hook ((typescript-mode . tide-setup)
-         (typescript-mode . tide-hl-identifier-mode)
-	 (typescript-mode . corfu-mode)
-         (before-save . tide-format-before-save)))
-(use-package vue-mode
+;;   ;; You may want to enable Corfu only for certain modes.
+;;   :hook (((emacs-lisp-mode vue-mode) . corfu-mode)
+;;          (eshell-mode . (lambda ()
+;; 			  (setq-local corfu-quit-at-boundary t
+;; 				      corfu-quit-no-match t
+;; 				      corfu-auto nil)
+;; 			  (corfu-mode)))))
+(use-package posframe
   :straight t)
 (use-package yasnippet
   :straight t
-  :hook ((prog-mode org-mode text-mode) . #'yas-minor-mode)
   :config
-  (define-key yas-keymap [tab] nil)
-  (define-key yas-keymap (kbd "C-n") 'yas-next-field)
-  (define-key yas-keymap (kbd "C-p") 'yas-prev-field)
+  (yas-global-mode 1)
+  ;; (define-key yas-keymap [tab] nil)
+  ;; (define-key yas-keymap (kbd "C-n") 'yas-next-field)
+  ;; (define-key yas-keymap (kbd "C-p") 'yas-prev-field)
   (yas-reload-all))
-;; (use-package yasnippet-snippets
+(use-package markdown-mode
+  :straight t
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown"))
+(add-to-list 'load-path "~/.emacs.d/lsp-bridge/")
+(require 'lsp-bridge)
+(global-lsp-bridge-mode)
+;; (use-package tide
 ;;   :straight t
-;;   :after yasnippet)
+;;   :after (typescript-mode corfu flycheck)
+;;   :hook ((typescript-mode . tide-setup)
+;;          (typescript-mode . tide-hl-identifier-mode)
+;; 	 (typescript-mode . corfu-mode)
+;;          (before-save . tide-format-before-save)))
 ;; Example configuration for Consult
 (use-package consult
   :straight t
@@ -399,7 +338,7 @@
   ;;        ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
   ;;        ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
   ;;        ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-  ;;        ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+  ;;        ("C-x 5 " . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
   ;;        ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
   ;;        ;; Custom M-# bindings for fast register access
   ;;        ("M-#" . consult-register-load)
@@ -468,28 +407,29 @@
   (consult-customize
    consult-theme
    :preview-key '(:debounce 0.2 any)
+
    consult-ripgrep consult-git-grep consult-grep
    consult-bookmark consult-recent-file consult-xref
    consult--source-recent-file consult--source-project-recent-file consult--source-bookmark
    :preview-key (kbd "M-."))
   ;; Optionally configure the narrowing key.
   ;; Both < and C-+ work reasonably well.
-  (setq consult-narrow-key "<") ;; (kbd "C-+")
+  ;; (setq consult-narrow-key "<") ;; (kbd "C-+")
   ;; Optionally make narrowing help available in the minibuffer.
   ;; You may want to use `embark-prefix-help-command' or which-key instead.
   ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
   ;; Optionally configure a function which returns the project root directory.
   ;; There are multiple reasonable alternatives to chose from.
   ;;;; 1. project.el (project-roots)
-  (setq consult-project-root-function
-        (lambda ()
-          (when-let (project (project-current))
-            (car (project-roots project)))))
+  ;; (setq consult-project-root-function
+  ;;       (lambda ()
+  ;;         (when-let (project (project-current))
+  ;;           (car (project-roots project)))))
   ;;;; 2. projectile.el (projectile-project-root)
   ;; (autoload 'projectile-project-root "projectile")
   ;; (setq consult-project-root-function #'projectile-project-root)
   ;;;; 3. vc.el (vc-root-dir)
-  ;; (setq consult-project-root-function #'vc-root-dir)
+  (setq consult-project-root-function #'vc-root-dir)
   ;;;; 4. locate-dominating-file
   ;; (setq consult-project-root-function (lambda () (locate-dominating-file "." ".git")))
   (setq completion-styles '(substring orderless))
@@ -512,16 +452,12 @@
   :straight t
   :init
   (vertico-mode)
-
   ;; Different scroll margin
   ;; (setq vertico-scroll-margin 0)
-
   ;; Show more candidates
   ;; (setq vertico-count 20)
-
   ;; Grow and shrink the Vertico minibuffer
-  (setq vertico-resize t)
-
+  ;; (setq vertico-resize t)
   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
   (setq vertico-cycle t))
 (use-package orderless
@@ -533,7 +469,6 @@
   (setq completion-styles '(orderless)
         completion-category-defaults nil
         completion-category-overrides '((file (styles . (partial-completion))))))
-;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
   :init
   (savehist-mode))
@@ -547,12 +482,12 @@
   :straight t)
 
 ;; Others
-;; (use-package which-key
-;;   :straight t
-;;   :init
-;;   (setq which-key-idle-secondary-delay 0.05)
-;;   :config
-;;   (which-key-mode))
+(use-package which-key
+  :straight t
+  :init
+  (setq which-key-idle-secondary-delay 0.05)
+  :config
+  (which-key-mode))
 (use-package flycheck
   :straight t
   :config
