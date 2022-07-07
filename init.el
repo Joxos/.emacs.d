@@ -14,6 +14,11 @@
 
 ;;; BASIC SETTINGS
 
+;; set coding system
+(prefer-coding-system 'utf-8)
+(setq coding-system-for-read 'utf-8)
+(setq coding-system-for-write 'utf-8)
+
 ;; recognize *.g4 as an antlr file
 (add-to-list 'auto-mode-alist '("\\.g4\\'" . antlr-mode))
 
@@ -74,7 +79,7 @@
 (global-display-line-numbers-mode)
 
 ;; move the mouse to the corner only if the cursor gets too close
-(mouse-avoidance-mode 'banish)
+;; (mouse-avoidance-mode 'banish)
 
 ;; indent automatically
 (electric-indent-mode)
