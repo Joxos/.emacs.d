@@ -324,14 +324,13 @@
 (add-to-list 'load-path "~/.emacs.d/lsp-bridge/")
 (require 'lsp-bridge)
 (global-lsp-bridge-mode)
-;; (use-package tide
-;;   :straight t
-;;   :after (typescript-mode corfu flycheck)
-;;   :hook ((typescript-mode . tide-setup)
-;;          (typescript-mode . tide-hl-identifier-mode)
-;; 	 (typescript-mode . corfu-mode)
-;;          (before-save . tide-format-before-save)))
-;; Example configuration for Consult
+(use-package tide
+  :straight t
+  :after (typescript-mode corfu flycheck)
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode)
+	 (typescript-mode . corfu-mode)
+         (before-save . tide-format-before-save)))
 (use-package consult
   :straight t
   ;; Replace bindings. Lazily loaded due by `use-package'.
