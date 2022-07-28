@@ -113,5 +113,4 @@
 (defvar comment-auto-fill-only-comments t)
 (global-set-key [remap comment-dwim] #'comment-or-uncomment)
 
-
 (provide 'init-basic)
