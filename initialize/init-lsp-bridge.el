@@ -9,6 +9,7 @@
 (add-to-list 'load-path "~/.emacs.d/lsp-bridge/")
 (require 'lsp-bridge)
 (setq lsp-bridge-python-lsp-server "jedi")
+(setq acm-backend-lsp-enable-auto-import nil)
 (global-lsp-bridge-mode)
 
 (provide 'init-lsp-bridge)

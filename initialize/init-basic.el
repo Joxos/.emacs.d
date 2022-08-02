@@ -113,4 +113,7 @@
 (defvar comment-auto-fill-only-comments t)
 (global-set-key [remap comment-dwim] #'comment-or-uncomment)
 
+(setq history-length 50)
+(add-hook 'after-init-hook 'savehist-mode)
+
 (provide 'init-basic)

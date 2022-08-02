@@ -106,33 +106,5 @@
   (setq completion-styles '(substring orderless))
   (define-key vertico-map (kbd "TAB") #'minibuffer-complete)
   )
-(use-package marginalia
-  :straight t
-  ;; Either bind `marginalia-cycle` globally or only in the minibuffer
-  :bind (("M-A" . marginalia-cycle)
-         :map minibuffer-local-map
-         ("M-A" . marginalia-cycle))
-
-  ;; The :init configuration is always executed (Not lazy!)
-  :init
-
-  ;; Must be in the :init section of use-package such that the mode gets
-  ;; enabled right away. Note that this forces loading the package.
-  (marginalia-mode))
-(use-package vertico
-  :straight t
-  :init
-  (vertico-mode)
-  ;; Different scroll margin
-  ;; (setq vertico-scroll-margin 0)
-  ;; Show more candidates
-  ;; (setq vertico-count 20)
-  ;; Grow and shrink the Vertico minibuffer
-  ;; (setq vertico-resize t)
-  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  (setq vertico-cycle t))
-(use-package savehist
-  :init
-  (savehist-mode))
 
 (provide 'init-consult)
