@@ -5,5 +5,6 @@
 (require 'init-magit)
 (require 'init-undo-tree)
 (require 'init-ace-window)
+(require 'init-tree-sitter)
 
 (provide 'init-packages)
