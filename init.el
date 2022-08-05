@@ -3,6 +3,7 @@
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Backup-Copying.html
 ;; https://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
 ;; git config --global url.https://ghproxy.com/https://github.com/.insteadof https://github.com/
+;; git config --global --unset url.https://ghproxy.com/https://github.com/.insteadof https://github.com/
 
 ;; OPTIMIZE GC
 (defvar original-gc-cons-threshold gc-cons-threshold)
