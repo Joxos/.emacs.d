@@ -6,5 +6,6 @@
 (require 'init-undo-tree)
 (require 'init-ace-window)
 (require 'init-tree-sitter)
+(require 'init-which-key)
 
 (provide 'init-packages)

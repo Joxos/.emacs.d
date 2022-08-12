@@ -9,12 +9,6 @@
   :config
   (evil-set-undo-system 'undo-tree)
   (evil-mode t))
-;; (use-package evil-collection
-;;   :straight t
-;;   :after evil
-;;   :custom ((evil-collection-company-setup t))
-;;   :config
-;;   (evil-collection-init))
 (use-package evil-matchit
   :straight t
   :after evil
@@ -58,5 +52,10 @@
     "fr" 'consult-recent-file
     "fo" 'open-current-file)
   (global-evil-leader-mode))
+(use-package evil-collection
+  :straight t
+  :after evil
+  :config
+  (evil-collection-init))
 
 (provide 'init-evil)
