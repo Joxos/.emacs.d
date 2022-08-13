@@ -25,7 +25,6 @@
     ;; basic
     "b" 'consult-buffer
     "p" 'consult-yank-pop
-    "q" 'save-buffers-kill-emacs
     "i" 'indent-region
     "o" 'ace-window
     "s" 'consult-line
@@ -35,6 +34,7 @@
 
     ;; lsp related
     "af" 'lsp-bridge-code-format
+    "rn" 'lsp-bridge-rename
 
     ;; window
     "0" 'delete-window
@@ -50,7 +50,11 @@
     "fd" 'delete-current-file
     "fR" 'rename-current-file
     "fr" 'consult-recent-file
-    "fo" 'open-current-file)
+    "fo" 'open-current-file
+
+    ;; others
+    "rg" 'consult-ripgrep
+    )
   (global-evil-leader-mode))
 (use-package evil-collection
   :straight t

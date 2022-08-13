@@ -5,6 +5,10 @@
 ;; git config --global url.https://ghproxy.com/https://github.com/.insteadof https://github.com/
 ;; git config --global --unset url.https://ghproxy.com/https://github.com/.insteadof https://github.com/
 
+;; installation guide
+;; git clone https://github.com/manateelazycat/lsp-bridge.git
+;; pip install orjson (optional)
+
 ;; OPTIMIZE GC
 (defvar original-gc-cons-threshold gc-cons-threshold)
 (setq gc-cons-threshold most-positive-fixnum)
