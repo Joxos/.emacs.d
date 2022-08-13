@@ -1,9 +1,3 @@
-(use-package tide
-  :straight t
-  :after (typescript-mode)
-  :hook ((typescript-mode . tide-setup)
-         (typescript-mode . tide-hl-identifier-mode)
-         (before-save . tide-format-before-save)))
 (use-package posframe :straight t)
 (require 'init-yasnippet)
 (use-package markdown-mode

@@ -1,6 +1,6 @@
 (require 'init-straight)
 (require 'init-evil)
-(require 'init-lsp-bridge)
+(require 'init-completion)
 (require 'init-minibuffer)
 (require 'init-magit)
 (require 'init-undo-tree)
