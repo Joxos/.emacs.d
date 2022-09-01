@@ -8,5 +8,6 @@
 (require 'init-which-key)
 (require 'init-format)
 ;; (require 'init-awesome-tray)
+(require 'init-tree-sitter)
 
 (provide 'init-packages)

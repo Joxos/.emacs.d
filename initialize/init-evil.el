@@ -1,5 +1,6 @@
 (use-package evil
   :straight t
+  :demand t
   :bind ((:map evil-normal-state-map
                ("gl" . 'evil-avy-goto-line)
                ("gc" . 'evil-avy-goto-char)
