@@ -2,15 +2,6 @@
 (when (version< emacs-version "26.1")
   (error "This requires Emacs 26.1 and above!"))
 
-;; redisplay the window only once when startup
-(setq-default inhibit-redisplay t
-              inhibit-message t)
-(add-hook 'window-setup-hook
-          (lambda ()
-            (setq-default inhibit-redisplay nil
-                          inhibit-message nil)
-            (redisplay)))
-
 ;; show buffer name as window title
 (setq frame-title-format "Emacs")
 

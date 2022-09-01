@@ -9,5 +9,6 @@
 (require 'init-format)
 ;; (require 'init-awesome-tray)
 (require 'init-tree-sitter)
+;; (require 'init-rainbow-delimiters)
 
 (provide 'init-packages)

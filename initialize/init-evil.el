@@ -19,6 +19,7 @@
 (use-package evil-leader
   :straight t
   :after evil
+  :demand t
   :config
   (evil-leader/set-leader "<SPC>")
   ;; (hook) key action
