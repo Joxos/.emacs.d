@@ -10,5 +10,6 @@
 ;; (require 'init-awesome-tray)
 (require 'init-tree-sitter)
 ;; (require 'init-rainbow-delimiters)
+(require 'init-org-roam)
 
 (provide 'init-packages)

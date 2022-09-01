@@ -10,3 +10,4 @@ server/
 straight/
 history
 eshell/
+org-persist/
