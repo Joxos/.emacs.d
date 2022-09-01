@@ -33,7 +33,7 @@
     "=" 'balance-windows
 
     ;; lsp related
-    "af" 'lsp-bridge-code-format
+    "af" 'format-all-buffer
     "rn" 'lsp-bridge-rename
 
     ;; window

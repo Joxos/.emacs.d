@@ -5,7 +5,7 @@
 (require 'init-magit)
 (require 'init-undo-tree)
 (require 'init-ace-window)
-(require 'init-tree-sitter)
 (require 'init-which-key)
+(require 'init-format)
 
 (provide 'init-packages)
