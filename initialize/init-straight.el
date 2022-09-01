@@ -14,6 +14,5 @@
 
 ;; install use-package
 (straight-use-package 'use-package)
-(setq use-package-always-defer t)
 
 (provide 'init-straight)
