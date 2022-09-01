@@ -9,14 +9,6 @@
 ;; git clone https://github.com/manateelazycat/lsp-bridge.git
 ;; pip install orjson (optional)
 
-;; OPTIMIZE GC
-(defvar original-gc-cons-threshold gc-cons-threshold)
-(setq gc-cons-threshold most-positive-fixnum)
-(setq gc-cons-percentage 0.5)
-
-;; add initialize/ to load path
-(add-to-list 'load-path "~/.emacs.d/initialize/")
-
 ;;; BASIC SETTINGS
 (require 'init-basic)
 
@@ -25,8 +17,5 @@
 
 ;;; PACKAGE SETTINGS
 (require 'init-packages)
-
-;; RESET GC
-(setq gc-cons-threshold original-gc-cons-threshold)
 
 (provide 'init)

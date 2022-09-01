@@ -1,8 +1,18 @@
+;; version check
+(when (version< emacs-version "26.1")
+  (error "This requires Emacs 26.1 and above!"))
+
+;; redisplay the window only once when startup
+(setq-default inhibit-redisplay t
+              inhibit-message t)
+(add-hook 'window-setup-hook
+          (lambda ()
+            (setq-default inhibit-redisplay nil
+                          inhibit-message nil)
+            (redisplay)))
+
 ;; show buffer name as window title
 (setq frame-title-format "Emacs")
-
-;; ESC to quit minibuffer immediatly
-;; (define-key minibuffer-mode-map (kbd "ESC") 'keyboard-escape-quit)
 
 ;; set coding system
 (prefer-coding-system 'utf-8)
@@ -40,11 +50,6 @@
 
 ;; use "y or p" instead of "yes or no"
 (defalias 'yes-or-no-p 'y-or-n-p)
-
-;; make emacs cleaner
-(tool-bar-mode 0)
-(scroll-bar-mode 0)
-(menu-bar-mode 0)
 
 ;; display line numbers
 (defvar display-line-numbers-type 'absolute)

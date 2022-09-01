@@ -7,5 +7,6 @@
 (require 'init-ace-window)
 (require 'init-which-key)
 (require 'init-format)
+(require 'init-awesome-tray)
 
 (provide 'init-packages)
