@@ -1,4 +1,3 @@
-(require 'init-straight)
 (require 'init-evil)
 (require 'init-completion)
 (require 'init-minibuffer)

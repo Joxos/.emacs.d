@@ -10,6 +10,9 @@
 ;; pip install orjson (optional)
 ;; install all fonts in fonts/
 
+;; STRAIGHT SETTINGS
+(require 'init-straight)
+
 ;;; BASIC SETTINGS
 (require 'init-basic)
 
