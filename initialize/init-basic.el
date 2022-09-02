@@ -47,8 +47,13 @@
 
   (setq inhibit-startup-message t)
 
-  (setq scroll-margin 5)
-  (setq scroll-conservatively 1)
+  ;; (setq scroll-margin 5)
+  ;; (setq scroll-conservatively 1)
+  (setq scroll-step 1
+	scroll-margin 5
+	scroll-conservatively 100000
+	auto-window-vscroll nil
+	scroll-preserve-screen-position t)
 
   (setq coding-system-for-read 'utf-8)
   (setq coding-system-for-write 'utf-8)
@@ -86,10 +91,14 @@
   (add-hook 'after-init-hook 'save-place-mode)
 
   ;; auto read the files from disk when they're changed
-  (add-hook 'after-init-hook 'global-auto-revert-mode)
+  (add-hook 'after-init-hook 'global-auto-revert-mode))
 
-  ;; highlight current line
-  (add-hook 'after-init-hook 'global-hl-line-mode))
+;; highlight current line
+(use-package hl-line
+  :straight nil
+  :hook ((after-init . global-hl-line-mode)
+         ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode) .
+          (lambda () (setq-local global-hl-line-mode nil)))))
 
 ;; hide or show a block
 (define-key prog-mode-map (kbd "M-[") 'hs-hide-block)
@@ -110,13 +119,15 @@
 (defvar hs-set-up-overlay 'hideshow-folded-overlay-fn)
 
 ;; show the paren matched
-(add-hook 'after-init-hook 'show-paren-mode)
-(defvar show-paren-when-point-inside-paren t)
-(defvar show-paren-when-point-in-periphery t)
+(use-package paren
+  :straight nil
+  :hook (after-init . show-paren-mode)
+  :init (setq show-paren-when-point-inside-paren t
+              show-paren-when-point-in-periphery t))
 
 ;; recent files recorder
 (use-package recentf
-  :hook (after-init-hook . recentf-mode)
+  :straight nil
   :init
   (defvar recentf-exclude '("\\.?cache" ".cask" "url" "COMMIT_EDITMSG\\'" "bookmarks"
 			    "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
@@ -124,6 +135,7 @@
 			    "^/tmp/" "^/var/folders/.+$" "^/ssh:" "/persp-confs/"))
   (setq recentf-max-saved-items 100)
   :config
+  (add-hook 'after-init-hook 'recentf-mode)
   (add-to-list 'recentf-filename-handlers #'abbreviate-file-name))
 
 ;; easy comment
