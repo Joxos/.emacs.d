@@ -5,12 +5,12 @@
 (require 'init-minibuffer)
 (require 'init-completion)
 (require 'init-ace-window)
-(require 'init-which-key)
 (require 'init-format)
 (require 'init-indent-line)
 (require 'init-tree-sitter)
 (require 'init-undo-tree)
 (require 'init-magit)
+;; (require 'init-which-key)
 ;; (require 'init-awesome-tray)
 ;; (require 'init-rainbow-delimiters)
 
