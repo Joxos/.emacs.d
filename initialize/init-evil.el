@@ -27,7 +27,6 @@
     ;; basic
     "b" 'consult-buffer
     "p" 'consult-yank-pop
-    "i" 'indent-region
     "o" 'ace-window
     "s" 'consult-line
     "g" 'magit

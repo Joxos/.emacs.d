@@ -85,6 +85,9 @@
   ;; remember where we left
   (add-hook 'after-init-hook 'save-place-mode)
 
+  ;; auto read the files from disk when they're changed
+  (add-hook 'after-init-hook 'global-auto-revert-mode)
+
   ;; highlight current line
   (add-hook 'after-init-hook 'global-hl-line-mode))
 
@@ -110,9 +113,6 @@
 (add-hook 'after-init-hook 'show-paren-mode)
 (defvar show-paren-when-point-inside-paren t)
 (defvar show-paren-when-point-in-periphery t)
-
-;; auto read the files from disk when they're changed
-(add-hook 'after-init-hook 'global-auto-revert-mode)
 
 ;; recent files recorder
 (use-package recentf
