@@ -1,3 +1,35 @@
+;; some consts
+(defconst sys/win32p
+  (eq system-type 'windows-nt)
+  "Are we running on a WinTel system?")
+(defconst sys/linuxp
+  (eq system-type 'gnu/linux)
+  "Are we running on a GNU/Linux system?")
+(defconst sys/macp
+  (eq system-type 'darwin)
+  "Are we running on a Mac system?")
+(defconst sys/mac-x-p
+  (and (display-graphic-p) sys/macp)
+  "Are we running under X on a Mac system?")
+(defconst sys/mac-ns-p
+  (eq window-system 'ns)
+  "Are we running on a GNUstep or Macintosh Cocoa display?")
+(defconst sys/mac-cocoa-p
+  (featurep 'cocoa)
+  "Are we running with Cocoa on a Mac system?")
+(defconst sys/mac-port-p
+  (eq window-system 'mac)
+  "Are we running a macport build on a Mac system?")
+(defconst sys/linux-x-p
+  (and (display-graphic-p) sys/linuxp)
+  "Are we running under X on a GNU/Linux system?")
+(defconst sys/cygwinp
+  (eq system-type 'cygwin)
+  "Are we running on a Cygwin system?")
+(defconst sys/rootp
+  (string-equal "root" (getenv "USER"))
+  "Are you using ROOT user?")
+
 ;; version check
 (when (version< emacs-version "26.1")
   (error "This requires Emacs 26.1 and above!"))
@@ -111,5 +143,18 @@
 
 (setq history-length 50)
 (add-hook 'after-init-hook 'savehist-mode)
+
+;; Optimization
+(when sys/win32p
+  (setq w32-get-true-file-attributes nil   ; decrease file IO workload
+        w32-pipe-read-delay 0              ; faster IPC
+        w32-pipe-buffer-size (* 64 1024))) ; read more at a time (was 4K and now 64K)
+(unless sys/macp
+  (setq command-line-ns-option-alist nil))
+(unless sys/linuxp
+  (setq command-line-x-option-alist nil))
+
+;; Increase how much is read from processes in a single chunk (default is 4kb)
+(setq read-process-output-max #x10000)  ; 64kb
 
 (provide 'init-basic)

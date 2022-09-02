@@ -1,11 +1,3 @@
-;; optimize garbage collection
-(setq gc-cons-threshold most-positive-fixnum)
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            "Recover GC values after startup."
-            (setq gc-cons-threshold 800000)))
-
-
 ;; add initialize/ to load path
 (add-to-list 'load-path "~/.emacs.d/initialize/")
 ;; disable package.el
