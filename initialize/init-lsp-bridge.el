@@ -12,6 +12,8 @@
 (setq acm-backend-lsp-enable-auto-import nil)
 (define-key evil-normal-state-map (kbd "C-]") 'lsp-bridge-find-def)
 (define-key lsp-bridge-mode-map (kbd "RET") 'newline)
+(define-key evil-insert-state-map (kbd "C-n") #'acm-select-next)
+(define-key evil-insert-state-map (kbd "C-p") #'acm-select-prev)
 (global-lsp-bridge-mode)
 
 (provide 'init-lsp-bridge)
