@@ -2,7 +2,7 @@
 # name: metadata
 # key: metadata
 # --
-
 #+title:  $1
 #+author: ${2:Joxos}
 #+date:   `(current-time-string)`
+$0

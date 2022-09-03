@@ -10,6 +10,7 @@
 (require 'init-tree-sitter)
 (require 'init-undo-tree)
 (require 'init-magit)
+(require 'init-org)
 ;; (require 'init-which-key)
 ;; (require 'init-awesome-tray)
 ;; (require 'init-rainbow-delimiters)
