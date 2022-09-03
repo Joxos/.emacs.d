@@ -21,5 +21,3 @@
 
 ;;; PACKAGE SETTINGS
 (require 'init-packages)
-
-(provide 'init)
