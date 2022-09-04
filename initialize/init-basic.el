@@ -169,4 +169,8 @@
 ;; Increase how much is read from processes in a single chunk (default is 4kb)
 (setq read-process-output-max #x10000)  ; 64kb
 
+;; adjust text scale
+(require 'init-text-scale)
+(default-text-scale-increase)
+
 (provide 'init-basic)
