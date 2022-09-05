@@ -83,7 +83,7 @@
      (font-spec :name "-outline-微软雅黑-normal-normal-normal-sans-*-*-*-*-p-*-iso10646-1"
 		:weight 'normal
 		:slant 'normal
-		:size 12.0)))
+		:size 11.5)))
 
   ;; recognize *.g4 as an antlr file
   (add-to-list 'auto-mode-alist '("\\.g4\\'" . antlr-mode))
