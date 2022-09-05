@@ -14,5 +14,6 @@
 ;; (require 'init-which-key)
 ;; (require 'init-awesome-tray)
 ;; (require 'init-rainbow-delimiters)
+(require 'init-keybindings)
 
 (provide 'init-packages)
