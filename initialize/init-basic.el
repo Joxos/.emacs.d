@@ -69,6 +69,22 @@
     (set-charset-priority 'unicode))
   (prefer-coding-system 'utf-8)
 
+  ;; configure fonts
+  (set-face-attribute
+   'default nil
+   :font (font-spec :name "-outline-Source Code Pro-bold-italic-normal-mono-*-*-*-*-c-*-iso10646-1"
+		    :weight 'normal
+		    :slant 'normal
+		    :size 12.0))
+  (dolist (charset '(kana han symbol cjk-misc bopomofo))
+    (set-fontset-font
+     (frame-parameter nil 'font)
+     charset
+     (font-spec :name "-outline-微软雅黑-normal-normal-normal-sans-*-*-*-*-p-*-iso10646-1"
+		:weight 'normal
+		:slant 'normal
+		:size 13.0)))
+
   ;; recognize *.g4 as an antlr file
   (add-to-list 'auto-mode-alist '("\\.g4\\'" . antlr-mode))
 
@@ -170,7 +186,7 @@
 (setq read-process-output-max #x10000)  ; 64kb
 
 ;; adjust text scale
-(require 'init-text-scale)
-(default-text-scale-increase)
+;; (require 'init-text-scale)
+;; (default-text-scale-increase)
 
 (provide 'init-basic)

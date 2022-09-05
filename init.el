@@ -8,7 +8,7 @@
 ;; installation guide
 ;; git clone https://github.com/manateelazycat/lsp-bridge.git
 ;; pip install orjson (optional)
-;; install all fonts in fonts/
+;; install all fonts under fonts/
 
 ;; STRAIGHT SETTINGS
 (require 'init-straight)

@@ -1,5 +1,6 @@
 ;; add initialize/ to load path
 (add-to-list 'load-path "~/.emacs.d/initialize/")
+
 ;; disable package.el
 (setq package-enable-at-startup nil)
 
