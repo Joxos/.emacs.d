@@ -1,10 +1,8 @@
 (use-package doom-modeline
   :straight t
+  :hook (after-init . doom-modeline-mode)
   :init
-  :config
-  (doom-modeline-mode 1))
-(use-package all-the-icons
-  :straight t
-  :if (display-graphic-p))
+  (setq doom-modeline-buffer-file-name-style 'buffer-name))
+(use-package all-the-icons :straight t)
 
 (provide 'init-doom-modeline)
