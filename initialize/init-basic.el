@@ -88,9 +88,6 @@
   ;; recognize *.g4 as an antlr file
   (add-to-list 'auto-mode-alist '("\\.g4\\'" . antlr-mode))
 
-  ;; use "y or p" instead of "yes or no"
-  (defalias 'yes-or-no-p 'y-or-n-p)
-
   ;; display line numbers
   (global-display-line-numbers-mode)
 
