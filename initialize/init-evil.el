@@ -7,6 +7,7 @@
 	       (":" . 'execute-extended-command)))
   :init
   (setq evil-want-keybinding nil)
+  (setq undo-tree-save-history nil)
   :config
   (evil-set-undo-system 'undo-tree)
   (evil-mode t))
