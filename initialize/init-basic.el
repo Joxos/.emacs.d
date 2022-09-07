@@ -8,30 +8,14 @@
 (defconst sys/macp
   (eq system-type 'darwin)
   "Are we running on a Mac system?")
-(defconst sys/mac-x-p
-  (and (display-graphic-p) sys/macp)
-  "Are we running under X on a Mac system?")
-(defconst sys/mac-ns-p
-  (eq window-system 'ns)
-  "Are we running on a GNUstep or Macintosh Cocoa display?")
-(defconst sys/mac-cocoa-p
-  (featurep 'cocoa)
-  "Are we running with Cocoa on a Mac system?")
-(defconst sys/mac-port-p
-  (eq window-system 'mac)
-  "Are we running a macport build on a Mac system?")
 (defconst sys/linux-x-p
   (and (display-graphic-p) sys/linuxp)
   "Are we running under X on a GNU/Linux system?")
-(defconst sys/cygwinp
-  (eq system-type 'cygwin)
-  "Are we running on a Cygwin system?")
-(defconst sys/rootp
-  (string-equal "root" (getenv "USER"))
-  "Are you using ROOT user?")
 
 (use-package simple
   :init
+  (setq default-directory "~/../../my_source/")
+
   (defvar display-line-numbers-type 'absolute)
 
   (setq user-full-name "Joxos")
@@ -86,7 +70,10 @@
 		:size 11.5)))
 
   ;; recognize *.g4 as an antlr file
-  (add-to-list 'auto-mode-alist '("\\.g4\\'" . antlr-mode))
+  (add-auto-mode 'antlr-mode "\\.g4\\'")
+
+  ;; use "y or p" instead of "yes or no"
+  (defalias 'yes-or-no-p 'y-or-n-p)
 
   ;; display line numbers
   (global-display-line-numbers-mode)

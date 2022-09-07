@@ -8,16 +8,17 @@
 ;; installation guide
 ;; git clone https://github.com/manateelazycat/lsp-bridge.git
 ;; pip install orjson (optional)
-;; install all fonts under fonts/
+;; install all fonts under fonts/source-code-pro-release/
+;; customize default-directory in init-basic.el
 
 ;; STRAIGHT SETTINGS
 (require 'init-straight)
 
+;;; UTILS
+(require 'init-utils)
+
 ;;; BASIC SETTINGS
 (require 'init-basic)
-
-;;; EDITING UTILS
-(require 'init-utils)
 
 ;;; PACKAGE SETTINGS
 (require 'init-packages)
