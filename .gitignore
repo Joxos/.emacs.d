@@ -1,9 +1,11 @@
 *#
 *~
 .lsp-session-v1
+.org-id-locations
 network-security.data
 places
 recentf
+bookmarks
 transient/
 .cache/
 server/
