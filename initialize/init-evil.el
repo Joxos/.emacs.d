@@ -38,6 +38,10 @@
     "af" 'format-all-buffer
     "rn" 'lsp-bridge-rename
 
+    ;; bookmark
+    "mg" 'consult-bookmark
+    "ma" 'bookmark-set
+
     ;; window
     "0" 'delete-window
     "1" 'delete-other-windows

@@ -14,7 +14,7 @@
 
 (use-package simple
   :init
-  (setq default-directory "~/../../my_source/")
+  ;; (setq default-directory "~/../../my_source/")
 
   (defvar display-line-numbers-type 'absolute)
 
