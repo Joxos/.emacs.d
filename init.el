@@ -7,9 +7,9 @@
 
 ;; installation guide
 ;; git clone https://github.com/manateelazycat/lsp-bridge.git
-;; pip install orjson (optional)
+;; pip install orjson cmake-language-server jedi-language-server
+;; npm install -g yaml-language-server typescript volar
 ;; install all fonts under fonts/source-code-pro-release/
-;; customize default-directory in init-basic.el
 
 ;; STRAIGHT SETTINGS
 (require 'init-straight)

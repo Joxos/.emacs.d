@@ -39,7 +39,7 @@
     "rn" 'lsp-bridge-rename
 
     ;; bookmark
-    "mg" 'consult-bookmark
+    "mm" 'consult-bookmark
     "ma" 'bookmark-set
 
     ;; window
