@@ -1,0 +1,30 @@
+* Elisp Study
+** Buffer
+#+begin_src elisp
+  ;; kill current buffer
+  (kill-this-buffer)
+#+end_src
+** File
+#+begin_src elisp
+  (delete-file [file-name])
+#+end_src
+** String
+#+begin_src elisp
+  (format ["sth %s?"] [what-%s-is])
+#+end_src
+** Variable
+#+begin_src elisp
+    (let ((var1 val)
+          (var2 val)))
+#+end_src
+** Show Info
+#+begin_src elisp
+  (error "sth %s?" [what-%s-is])
+#+end_src
+** Condition
+#+begin_src elisp
+  (when sth (...))
+  (unless sth (...))
+  (if sth (...))
+#+end_src
+

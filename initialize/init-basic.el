@@ -43,6 +43,7 @@
   (setq coding-system-for-write 'utf-8)
 
   (setq frame-title-format "Emacs")
+
   :config
   ;; version check
   (when (version< emacs-version "26.1")

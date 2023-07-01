@@ -2,7 +2,5 @@
 # name: begin_src
 # key: #+begin_src
 # --
-#+begin_src ${1:elisp}
-$2
-#+end_src
-$0
+#+begin_src ${1:elisp}$2
+#+end_src$0
