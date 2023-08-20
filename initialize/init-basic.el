@@ -31,8 +31,6 @@
 
   (setq inhibit-startup-message t)
 
-  ;; (setq scroll-margin 5)
-  ;; (setq scroll-conservatively 1)
   (setq scroll-step 1
 	scroll-margin 5
 	scroll-conservatively 100000
@@ -55,23 +53,23 @@
   (prefer-coding-system 'utf-8)
 
   ;; configure fonts
-  (set-face-attribute
-   'default nil
-   :font (font-spec :name "-outline-Source Code Pro-bold-italic-normal-mono-*-*-*-*-c-*-iso10646-1"
-		    :weight 'normal
-		    :slant 'normal
-		    :size 12.0))
-  (dolist (charset '(kana han symbol cjk-misc bopomofo))
-    (set-fontset-font
-     (frame-parameter nil 'font)
-     charset
-     (font-spec :name "-outline-微软雅黑-normal-normal-normal-sans-*-*-*-*-p-*-iso10646-1"
-		:weight 'normal
-		:slant 'normal
-		:size 11.5)))
+  ;; (set-face-attribute
+  ;;  'default nil
+  ;;  :font (font-spec :name "-outline-Source Code Pro-bold-italic-normal-mono-*-*-*-*-c-*-iso10646-1"
+  ;; 		    :weight 'normal
+  ;; 		    :slant 'normal
+  ;; 		    :size 12.0))
+  ;; (dolist (charset '(kana han symbol cjk-misc bopomofo))
+  ;;   (set-fontset-font
+  ;;    (frame-parameter nil 'font)
+  ;;    charset
+  ;;    (font-spec :name "-outline-微软雅黑-normal-normal-normal-sans-*-*-*-*-p-*-iso10646-1"
+  ;; 		:weight 'normal
+  ;; 		:slant 'normal
+  ;; 		:size 11.5)))
 
   ;; recognize *.g4 as an antlr file
-  (add-auto-mode 'antlr-mode "\\.g4\\'")
+  ;; (add-auto-mode 'antlr-mode "\\.g4\\'")
 
   ;; use "y or p" instead of "yes or no"
   (defalias 'yes-or-no-p 'y-or-n-p)
@@ -86,7 +84,7 @@
   (electric-pair-mode)
 
   ;; winner-mode
-  (winner-mode)
+  ;; (winner-mode)
 
   ;; remember where we left
   (add-hook 'after-init-hook 'save-place-mode)
@@ -102,10 +100,10 @@
           (lambda () (setq-local global-hl-line-mode nil)))))
 
 ;; hide or show a block
-(define-key prog-mode-map (kbd "M-[") 'hs-hide-block)
-(define-key prog-mode-map (kbd "M-]") 'hs-show-block)
-(define-key prog-mode-map (kbd "M-{") 'hs-hide-all)
-(define-key prog-mode-map (kbd "M-}") 'hs-show-all)
+;; (define-key prog-mode-map (kbd "M-[") 'hs-hide-block)
+;; (define-key prog-mode-map (kbd "M-]") 'hs-show-block)
+;; (define-key prog-mode-map (kbd "M-{") 'hs-hide-all)
+;; (define-key prog-mode-map (kbd "M-}") 'hs-show-all)
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 (defvar hs-special-modes-alist (mapcar 'purecopy
 				       '((c-mode "{" "}" "/[*/]" nil nil)
