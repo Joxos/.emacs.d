@@ -53,23 +53,23 @@
   (prefer-coding-system 'utf-8)
 
   ;; configure fonts
-  ;; (set-face-attribute
-  ;;  'default nil
-  ;;  :font (font-spec :name "-outline-Source Code Pro-bold-italic-normal-mono-*-*-*-*-c-*-iso10646-1"
-  ;; 		    :weight 'normal
-  ;; 		    :slant 'normal
-  ;; 		    :size 12.0))
-  ;; (dolist (charset '(kana han symbol cjk-misc bopomofo))
-  ;;   (set-fontset-font
-  ;;    (frame-parameter nil 'font)
-  ;;    charset
-  ;;    (font-spec :name "-outline-微软雅黑-normal-normal-normal-sans-*-*-*-*-p-*-iso10646-1"
-  ;; 		:weight 'normal
-  ;; 		:slant 'normal
-  ;; 		:size 11.5)))
+  (set-face-attribute
+   'default nil
+   :font (font-spec :name "-outline-Source Code Pro-bold-italic-normal-mono-*-*-*-*-c-*-iso10646-1"
+		    :weight 'normal
+		    :slant 'normal
+		    :size 12.0))
+  (dolist (charset '(kana han symbol cjk-misc bopomofo))
+    (set-fontset-font
+     (frame-parameter nil 'font)
+     charset
+     (font-spec :name "-outline-微软雅黑-normal-normal-normal-sans-*-*-*-*-p-*-iso10646-1"
+		:weight 'normal
+		:slant 'normal
+		:size 11.5)))
 
   ;; recognize *.g4 as an antlr file
-  ;; (add-auto-mode 'antlr-mode "\\.g4\\'")
+  (add-auto-mode 'antlr-mode "\\.g4\\'")
 
   ;; use "y or p" instead of "yes or no"
   (defalias 'yes-or-no-p 'y-or-n-p)
