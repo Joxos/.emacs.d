@@ -14,5 +14,7 @@
   ;; (define-key evil-normal-state-map (kbd "C-]") 'lsp-bridge-find-def)
   ;; (define-key lsp-bridge-mode-map (kbd "RET") 'newline)
   (global-lsp-bridge-mode))
+;; evil dabbrev
+;; (define-key evil-insert-state-map (kbd "TAB") 'dabbrev-expand)
 
 (provide 'init-lsp-bridge)

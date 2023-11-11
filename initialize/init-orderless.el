@@ -5,7 +5,7 @@
   ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
   ;;       orderless-component-separator #'orderless-escapable-split-on-space)
   (setq completion-styles '(orderless)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles . (partial-completion))))))
+	completion-category-defaults nil
+	completion-category-overrides '((file (styles . (partial-completion))))))
 
 (provide 'init-orderless)

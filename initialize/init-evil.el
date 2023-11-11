@@ -35,7 +35,7 @@
     "=" 'balance-windows
 
     ;; lsp related
-    "af" 'format-all-buffer
+    "af" 'apheleia-format-buffer
     "rn" 'lsp-bridge-rename
 
     ;; bookmark
