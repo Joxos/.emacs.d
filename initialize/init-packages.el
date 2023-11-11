@@ -13,8 +13,8 @@
 (require 'init-org)
 ;; (require 'init-dirvish)
 (require 'init-which-key)
-;; (require 'init-awesome-tray)
 ;; (require 'init-rainbow-delimiters)
 (require 'init-keybindings)
+(require 'init-sort-tab)
 
 (provide 'init-packages)
