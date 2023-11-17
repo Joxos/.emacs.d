@@ -12,40 +12,46 @@
   (and (display-graphic-p) sys/linuxp)
   "Are we running under X on a GNU/Linux system?")
 
+;; simple configuration of Emacs self
 (use-package simple
   :init
   ;; (setq default-directory "~/../../my_source/")
 
   (defvar display-line-numbers-type 'absolute)
-
+  (setq-default auto-save-timeout 15)
+  (setq-default auto-save-interval 100)
   (setq user-full-name "Joxos")
   (setq user-mail-address "xujunhao61@163.com")
-
   (setq blink-cursor-mode nil)
-
   (setq require-final-newline t)
-
   (setq indent-tabs-mode nil)
-
   (setq ring-bell-function 'ignore)
-
   (setq inhibit-startup-message t)
+  (setq frame-title-format "Emacs")
 
   (setq scroll-step 1
 	scroll-margin 5
 	scroll-conservatively 100000
 	auto-window-vscroll nil
 	scroll-preserve-screen-position t)
+  
+  (setq make-backup-files nil)
+  ;; (setq
+  ;;      backup-by-copying t ;; 自动备份
+  ;;      backup-directory-alist
+  ;;      '(("." . "~/.em_backup")) ;; 自动备份在目录"~/.em_backup"下
+  ;;      delete-old-versions t ;; 自动删除旧的备份文件
+  ;;      kept-new-versions 3 ;; 保留最近的3个备份文件
+  ;;      kept-old-versions 1 ;; 保留最早的1个备份文件
+  ;;      version-control t) ;; 多次备份
 
   (setq coding-system-for-read 'utf-8)
   (setq coding-system-for-write 'utf-8)
 
-  (setq frame-title-format "Emacs")
-
   :config
   ;; version check
   (when (version< emacs-version "26.1")
-    (error "This requires Emacs 26.1 and above!"))
+    (error "This requires Emacs 26.1 and above."))
 
   ;; set coding system
   (when (fboundp 'set-charset-priority)
@@ -53,20 +59,20 @@
   (prefer-coding-system 'utf-8)
 
   ;; configure fonts
-  (set-face-attribute
-   'default nil
-   :font (font-spec :name "-outline-Source Code Pro-bold-italic-normal-mono-*-*-*-*-c-*-iso10646-1"
-		    :weight 'normal
-		    :slant 'normal
-		    :size 12.0))
-  (dolist (charset '(kana han symbol cjk-misc bopomofo))
-    (set-fontset-font
-     (frame-parameter nil 'font)
-     charset
-     (font-spec :name "-outline-微软雅黑-normal-normal-normal-sans-*-*-*-*-p-*-iso10646-1"
-		:weight 'normal
-		:slant 'normal
-		:size 11.5)))
+  ;; (set-face-attribute
+  ;;  'default nil
+  ;;  :font (font-spec :name "-outline-Source Code Pro-bold-italic-normal-mono-*-*-*-*-c-*-iso10646-1"
+  ;; 		    :weight 'normal
+  ;; 		    :slant 'normal
+  ;; 		    :size 12.0))
+  ;; (dolist (charset '(kana han symbol cjk-misc bopomofo))
+  ;;   (set-fontset-font
+  ;;    (frame-parameter nil 'font)
+  ;;    charset
+  ;;    (font-spec :name "-outline-微软雅黑-normal-normal-normal-sans-*-*-*-*-p-*-iso10646-1"
+  ;; 		:weight 'normal
+  ;; 		:slant 'normal
+  ;; 		:size 11.5)))
 
   ;; recognize *.g4 as an antlr file
   (add-auto-mode 'antlr-mode "\\.g4\\'")
@@ -84,7 +90,7 @@
   (electric-pair-mode)
 
   ;; winner-mode
-  ;; (winner-mode)
+  (winner-mode)
 
   ;; remember where we left
   (add-hook 'after-init-hook 'save-place-mode)
@@ -104,18 +110,18 @@
 ;; (define-key prog-mode-map (kbd "M-]") 'hs-show-block)
 ;; (define-key prog-mode-map (kbd "M-{") 'hs-hide-all)
 ;; (define-key prog-mode-map (kbd "M-}") 'hs-show-all)
-(add-hook 'prog-mode-hook 'hs-minor-mode)
-(defvar hs-special-modes-alist (mapcar 'purecopy
-				       '((c-mode "{" "}" "/[*/]" nil nil)
-					 (c++-mode "{" "}" "/[*/]" nil nil)
-					 (rust-mode "{" "}" "/[*/]" nil nil))))
-(defconst hideshow-folded-face '((t (:inherit 'font-lock-comment-face :box t))))
-(defun hideshow-folded-overlay-fn (ov)
-  (when (eq 'code (overlay-get ov 'hs))
-    (let* ((nlines (count-lines (overlay-start ov) (overlay-end ov)))
-	   (info (format " ... #%d " nlines)))
-      (overlay-put ov 'display (propertize info 'face hideshow-folded-face)))))
-(defvar hs-set-up-overlay 'hideshow-folded-overlay-fn)
+;; (add-hook 'prog-mode-hook 'hs-minor-mode)
+;; (defvar hs-special-modes-alist (mapcar 'purecopy
+;; 				       '((c-mode "{" "}" "/[*/]" nil nil)
+;; 					 (c++-mode "{" "}" "/[*/]" nil nil)
+;; 					 (rust-mode "{" "}" "/[*/]" nil nil))))
+;; (defconst hideshow-folded-face '((t (:inherit 'font-lock-comment-face :box t))))
+;; (defun hideshow-folded-overlay-fn (ov)
+;;   (when (eq 'code (overlay-get ov 'hs))
+;;     (let* ((nlines (count-lines (overlay-start ov) (overlay-end ov)))
+;; 	   (info (format " ... #%d " nlines)))
+;;       (overlay-put ov 'display (propertize info 'face hideshow-folded-face)))))
+;; (defvar hs-set-up-overlay 'hideshow-folded-overlay-fn)
 
 ;; show the paren matched
 (use-package paren
@@ -152,8 +158,8 @@
 (global-set-key [remap comment-dwim] #'comment-or-uncomment)
 
 ;; save minibuffer history
-;; (setq history-length 10)
-;; (add-hook 'after-init-hook 'savehist-mode)
+(setq history-length 100)
+(add-hook 'after-init-hook 'savehist-mode)
 
 ;; Optimization
 (when sys/win32p
