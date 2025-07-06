@@ -17,5 +17,6 @@
 (require 'init-sort-tab)
 ;; (require 'init-holo-layer)
 (require 'init-awesome-tray)
+(require 'init-dashboard)
 
 (provide 'init-packages)
