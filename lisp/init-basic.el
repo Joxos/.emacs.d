@@ -51,28 +51,15 @@
   :config
   ;; version check
   (when (version< emacs-version "26.1")
-    (error "This requires Emacs 26.1 and above."))
+   (error "This requires Emacs 26.1 and above."))
 
   ;; set coding system
   (when (fboundp 'set-charset-priority)
-    (set-charset-priority 'unicode))
+   (set-charset-priority 'unicode))
   (prefer-coding-system 'utf-8)
 
   ;; configure fonts
-  ;; (set-face-attribute
-  ;;  'default nil
-  ;;  :font (font-spec :name "-outline-Source Code Pro-bold-italic-normal-mono-*-*-*-*-c-*-iso10646-1"
-  ;; 		    :weight 'normal
-  ;; 		    :slant 'normal
-  ;; 		    :size 12.0))
-  ;; (dolist (charset '(kana han symbol cjk-misc bopomofo))
-  ;;   (set-fontset-font
-  ;;    (frame-parameter nil 'font)
-  ;;    charset
-  ;;    (font-spec :name "-outline-微软雅黑-normal-normal-normal-sans-*-*-*-*-p-*-iso10646-1"
-  ;; 		:weight 'normal
-  ;; 		:slant 'normal
-  ;; 		:size 11.5)))
+  (set-face-attribute 'default nil :font "Source Code Pro" :height 180)
 
   ;; recognize *.g4 as an antlr file
   (add-auto-mode 'antlr-mode "\\.g4\\'")
@@ -102,8 +89,8 @@
 (use-package hl-line
   :straight nil
   :hook ((after-init . global-hl-line-mode)
-         ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode) .
-          (lambda () (setq-local global-hl-line-mode nil)))))
+      ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode) .
+	  (lambda () (setq-local global-hl-line-mode nil)))))
 
 ;; hide or show a block
 ;; (define-key prog-mode-map (kbd "M-[") 'hs-hide-block)

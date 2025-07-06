@@ -15,7 +15,7 @@
 ;; (require 'init-awesome-tray)
 (require 'init-keybindings)
 (require 'init-sort-tab)
-(require 'init-holo-layer)
+;; (require 'init-holo-layer)
 (require 'init-awesome-tray)
 
 (provide 'init-packages)
