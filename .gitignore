@@ -13,3 +13,5 @@ straight/
 history
 eshell/
 org-persist/
+eln-cache/
+tramp

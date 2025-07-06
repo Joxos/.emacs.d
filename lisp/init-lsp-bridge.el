@@ -26,6 +26,7 @@
   ;; (setq lsp-bridge-multi-lang-server-extension-list '((("vue") . "volar_emmet")
   ;; 						      (("html") . "html_emmet")
   ;; 						      (("css") . "css_emmet")))
+  :config
   (define-key evil-normal-state-map (kbd "C-]") 'lsp-bridge-find-def)
   (define-key lsp-bridge-mode-map (kbd "RET") 'newline)
   (global-lsp-bridge-mode))
