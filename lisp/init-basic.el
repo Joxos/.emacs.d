@@ -71,7 +71,7 @@
   (global-display-line-numbers-mode)
 
   ;; indent automatically
-  (electric-indent-mode t)
+  (electric-indent-mode)
 
   ;; close a pair automatically
   (electric-pair-mode)
