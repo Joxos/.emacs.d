@@ -2,11 +2,10 @@
 ;; https://zhuanlan.zhihu.com/p/26068894
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Backup-Copying.html
 ;; https://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
-;; git config --global url.https://ghproxy.com/https://github.com/.insteadof https://github.com/
-;; git config --global --unset url.https://ghproxy.com/https://github.com/.insteadof https://github.com/
+;; git config --global http.proxy 127.0.0.1:7890
+;; git config --global https.proxy 127.0.0.1:7890
 
 ;; installation guide
-;; git clone https://github.com/manateelazycat/lsp-bridge.git
 ;; pip install orjson cmake-language-server jedi-language-server
 ;; npm install -g yaml-language-server typescript volar
 ;; install all fonts under fonts/source-code-pro-release/
