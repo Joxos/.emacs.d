@@ -4,6 +4,7 @@
   :init
   (setq doom-modeline-buffer-file-name-style 'buffer-name))
 ;; since octicons has confict with source code pro, disable icons.
-;; (use-package all-the-icons :straight t)
+;; all-the-icons-install-fonts
+(use-package all-the-icons :straight t)
 
 (provide 'init-doom-modeline)
