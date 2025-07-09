@@ -5,7 +5,7 @@
 (require 'init-completion)
 (require 'init-ace-window)
 (require 'init-formatter)
-(require 'init-indent-line)
+;; (require 'init-indent-line)
 ;; (require 'init-tree-sitter)
 (require 'init-undo-tree)
 (require 'init-git)
