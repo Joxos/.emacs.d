@@ -123,7 +123,8 @@
 
 (map! :map evil-normal-state-map
       "gl" 'evil-avy-goto-line
-      "gc" 'evil-avy-goto-char-2
+      "gc" 'evil-avy-goto-char-2)
+(map! :map (evil-normal-state-map evil-visual-state-map)
       ":" 'execute-extended-command)
 ;; (use-package! evil-matchit
 ;;   :straight t
@@ -154,3 +155,46 @@
   "3" 'split-window-right
   "=" 'balance-windows
   "o" 'ace-select-window)
+
+(use-package! lsp-bridge
+  :init
+  ;; (setq lsp-bridge-python-lsp-server "jedi")
+  (setq lsp-bridge-python-command "python")
+  (setq lsp-bridge-python-multi-lsp-server "pyright-langserver")
+  (setq lsp-bridge-python-multi-lsp-server "pyright_ruff")
+  (setq acm-backend-lsp-enable-auto-import nil)
+  ;; (append lsp-bridge-multi-lang-server-extension-list '(("html") . "html_emmet"))
+  ;; (setq lsp-bridge-multi-lang-server-extension-list '((("vue") . "volar_emmet")
+  ;;                                                  (("html") . "html_emmet")
+  ;;                                                  (("css") . "css_emmet")))
+  :config
+  (global-lsp-bridge-mode))
+(after! lsp-bridge
+  (map! :map lsp-bridge-mode-map "RET" 'newline-and-indent)
+  (map! :map evil-normal-state-map "C-]" 'lsp-bridge-find-def))
+;; (defcustom lsp-bridge-completion-popup-predicates '(
+;;                                                     lsp-bridge--not-follow-complete
+;;                                                     lsp-bridge--not-match-stop-commands
+;;                                                     lsp-bridge--not-match-hide-characters
+;;                                                     lsp-bridge--not-match-hide-keywords
+
+;;                                                     lsp-bridge--not-only-blank-before-cursor
+;;                                                     lsp-bridge--not-in-string
+;;                                                     lsp-bridge--not-in-org-table
+
+;;                                                     lsp-bridge--not-execute-macro
+;;                                                     lsp-bridge--not-in-multiple-cursors
+;;                                                     lsp-bridge--not-in-mark-macro
+
+;;                                                     lsp-bridge--is-evil-state
+;;                                                     lsp-bridge--is-meow-state
+
+;;                                                     lsp-brige--not-in-chatgpt-response
+
+;;                                                     lsp-bridge--not-complete-manually
+;;                                                     )
+;;   "A list of predicate functions with no argument to enable popup completion in callback."
+;;   :type '(repeat function)
+;;   :group 'lsp-bridge)
+
+(toggle-frame-maximized)
