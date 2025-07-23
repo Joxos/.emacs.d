@@ -9,4 +9,8 @@ git clone --branch doom https://github.com/Joxos/.emacs.d.git ~/.config/doom/
 ~/.config/emacs/bin/doom sync
 ```
 
+After that:
+
+`M-x nerd-icons-install-fonts`
+
 `
