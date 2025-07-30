@@ -63,6 +63,7 @@
 ;; kbds
 ;; basic
 ;; SPC i y: yank pop
+;; SPC t r: toggle read-only mode
 
 ;; lsp related
 ;; "af" 'apheleia-format-buffer
@@ -71,3 +72,8 @@
 ;; bookmark
 ;; SPC RET: jump to bookmark
 ;; SPC b m: set a bookmark
+
+;; org
+;; SPC m x: toggle checkbox
+;; SPC m t: toggle todo status
+;; SPC m s r: refile(move) current subtree
