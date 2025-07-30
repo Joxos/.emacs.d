@@ -56,8 +56,21 @@
 ;; lsp-bridge
 (after! lsp-bridge
   (map! :map lsp-bridge-mode-map "RET" 'newline-and-indent)
-  (map! :map evil-normal-state-map "C-]" 'lsp-bridge-find-def))
+  (map! :map evil-normal-state-map "C-]" 'lsp-bridge-find-def)
+  (setq! acm-backend-lsp-enable-auto-import nil)
+  (setq! acm-enable-yas nil)
+  (setq! acm-backend-lsp-candidates-min-length 3))
 
+;; yasnippet
+(add-hook! 'after-init-hook 'delete-selection-mode)
+(after! yasnippet
+  (map! :map yas-keymap
+        "TAB" nil)
+  (map! :map evil-insert-state-map
+        "C-n" 'yas-next-field-or-maybe-expand
+        "C-p" 'yas-prev-field))
+
+;; maximize frame
 (toggle-frame-maximized)
 
 ;; kbds
@@ -77,3 +90,6 @@
 ;; SPC m x: toggle checkbox
 ;; SPC m t: toggle todo status
 ;; SPC m s r: refile(move) current subtree
+
+;; vertico
+;; C-SPC: preview current selection
