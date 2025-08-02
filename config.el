@@ -19,8 +19,6 @@
       auto-window-vscroll nil
       scroll-preserve-screen-position t)
 
-;; backup (?)
-
 ;; coding system (not seemed as a part of default settings)
 (setq coding-system-for-read 'utf-8)
 (setq coding-system-for-write 'utf-8)
