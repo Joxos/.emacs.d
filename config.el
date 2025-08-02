@@ -39,17 +39,21 @@
       "gc" 'evil-avy-goto-char-2)
 (map! :map (evil-normal-state-map evil-visual-state-map)
       ":" 'execute-extended-command)
+;; this is because SPC a is originally bound to embark in doom emacs
+(define-key doom-leader-map "a" nil)
 (map!
-  :leader
-  ";" 'evilnc-comment-or-uncomment-lines
-  "rg" 'consult-ripgrep
-  ;; window
-  "0" 'evil-window-delete
-  "1" 'delete-other-windows
-  "2" 'split-window-below
-  "3" 'split-window-right
-  "=" 'balance-windows
-  "o" 'ace-select-window)
+ :leader
+ ";" 'evilnc-comment-or-uncomment-lines
+ "rg" 'consult-ripgrep
+ "af" 'apheleia-format-buffer
+
+ ;; window
+ "0" 'evil-window-delete
+ "1" 'delete-other-windows
+ "2" 'split-window-below
+ "3" 'split-window-right
+ "=" 'balance-windows
+ "o" 'ace-select-window)
 
 ;; lsp-bridge
 (after! lsp-bridge
@@ -66,7 +70,8 @@
         "TAB" nil)
   (map! :map evil-insert-state-map
         "C-n" 'yas-next-field-or-maybe-expand
-        "C-p" 'yas-prev-field))
+        "C-p" 'yas-prev-field)
+  (yas-global-mode))
 
 ;; maximize frame
 (toggle-frame-maximized)
@@ -75,6 +80,7 @@
 ;; basic
 ;; SPC i y: yank pop
 ;; SPC t r: toggle read-only mode
+;; SPC m e b: eval buffer
 
 ;; lsp related
 ;; "af" 'apheleia-format-buffer
