@@ -45,7 +45,9 @@
  :leader
  ";" 'evilnc-comment-or-uncomment-lines
  "rg" 'consult-ripgrep
+ "rn" 'lsp-bridge-rename
  "af" 'apheleia-format-buffer
+ "ft" '+treemacs/toggle
 
  ;; window
  "0" 'evil-window-delete
