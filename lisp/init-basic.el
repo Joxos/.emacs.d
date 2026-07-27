@@ -45,21 +45,21 @@
   ;;      kept-old-versions 1 ;; 保留最早的1个备份文件
   ;;      version-control t) ;; 多次备份
 
-  (setq coding-system-for-read 'utf-8)
-  (setq coding-system-for-write 'utf-8)
+  ;; (setq coding-system-for-read 'utf-8)
+  ;; (setq coding-system-for-write 'utf-8)
 
   :config
   ;; version check
-  (when (version< emacs-version "26.1")
-   (error "This requires Emacs 26.1 and above."))
+  ;; (when (version< emacs-version "26.1")
+  ;;  (error "This requires Emacs 26.1 and above."))
 
   ;; set coding system
-  (when (fboundp 'set-charset-priority)
-   (set-charset-priority 'unicode))
-  (prefer-coding-system 'utf-8)
+  ;; (when (fboundp 'set-charset-priority)
+  ;;  (set-charset-priority 'unicode))
+  ;; (prefer-coding-system 'utf-8)
 
   ;; configure fonts
-  (set-face-attribute 'default nil :font "Source Code Pro" :height 180)
+  ;; (set-face-attribute 'default nil :font "Source Code Pro" :height 180)
 
   ;; recognize *.g4 as an antlr file
   (add-auto-mode 'antlr-mode "\\.g4\\'")
@@ -89,7 +89,7 @@
 (use-package hl-line
   :straight nil
   :hook ((after-init . global-hl-line-mode)
-      ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode) .
+	 ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode) .
 	  (lambda () (setq-local global-hl-line-mode nil)))))
 
 ;; hide or show a block
@@ -137,9 +137,9 @@
   (if (region-active-p)
       (comment-or-uncomment-region (region-beginning) (region-end))
     (if (save-excursion
-          (beginning-of-line)
-          (looking-at "\\s-*$"))
-        (call-interactively 'comment-dwim)
+	  (beginning-of-line)
+	  (looking-at "\\s-*$"))
+	(call-interactively 'comment-dwim)
       (comment-or-uncomment-region (line-beginning-position) (line-end-position)))))
 (defvar comment-auto-fill-only-comments t)
 (global-set-key [remap comment-dwim] #'comment-or-uncomment)
