@@ -1,16 +1,16 @@
 ;; some consts
-(defconst sys/win32p
-  (eq system-type 'windows-nt)
-  "Are we running on a WinTel system?")
-(defconst sys/linuxp
-  (eq system-type 'gnu/linux)
-  "Are we running on a GNU/Linux system?")
-(defconst sys/macp
-  (eq system-type 'darwin)
-  "Are we running on a Mac system?")
-(defconst sys/linux-x-p
-  (and (display-graphic-p) sys/linuxp)
-  "Are we running under X on a GNU/Linux system?")
+;; (defconst sys/win32p
+;;   (eq system-type 'windows-nt)
+;;   "Are we running on a WinTel system?")
+;; (defconst sys/linuxp
+;;   (eq system-type 'gnu/linux)
+;;   "Are we running on a GNU/Linux system?")
+;; (defconst sys/macp
+;;   (eq system-type 'darwin)
+;;   "Are we running on a Mac system?")
+;; (defconst sys/linux-x-p
+;;   (and (display-graphic-p) sys/linuxp)
+;;   "Are we running under X on a GNU/Linux system?")
 
 ;; simple configuration of Emacs self
 (use-package simple
@@ -115,7 +115,7 @@
   :straight nil
   :hook (after-init . show-paren-mode)
   :init (setq show-paren-when-point-inside-paren t
-              show-paren-when-point-in-periphery t))
+             show-paren-when-point-in-periphery t))
 
 ;; recent files recorder
 (use-package recentf
@@ -135,12 +135,12 @@
   "Easy comment current region."
   (interactive)
   (if (region-active-p)
-      (comment-or-uncomment-region (region-beginning) (region-end))
-    (if (save-excursion
-	  (beginning-of-line)
-	  (looking-at "\\s-*$"))
-	(call-interactively 'comment-dwim)
-      (comment-or-uncomment-region (line-beginning-position) (line-end-position)))))
+     (comment-or-uncomment-region (region-beginning) (region-end))
+   (if (save-excursion
+	 (beginning-of-line)
+	 (looking-at "\\s-*$"))
+      (call-interactively 'comment-dwim)
+    (comment-or-uncomment-region (line-beginning-position) (line-end-position)))))
 (defvar comment-auto-fill-only-comments t)
 (global-set-key [remap comment-dwim] #'comment-or-uncomment)
 
@@ -149,14 +149,14 @@
 (add-hook 'after-init-hook 'savehist-mode)
 
 ;; Optimization
-(when sys/win32p
-  (setq w32-get-true-file-attributes nil   ; decrease file IO workload
-        w32-pipe-read-delay 0              ; faster IPC
-        w32-pipe-buffer-size (* 64 1024))) ; read more at a time (was 4K and now 64K)
-(unless sys/macp
-  (setq command-line-ns-option-alist nil))
-(unless sys/linuxp
-  (setq command-line-x-option-alist nil))
+;; (when sys/win32p
+;;   (setq w32-get-true-file-attributes nil   ; decrease file IO workload
+;;        w32-pipe-read-delay 0              ; faster IPC
+;;        w32-pipe-buffer-size (* 64 1024))) ; read more at a time (was 4K and now 64K)
+;; (unless sys/macp
+;;   (setq command-line-ns-option-alist nil))
+;; (unless sys/linuxp
+;;   (setq command-line-x-option-alist nil))
 
 ;; Increase how much is read from processes in a single chunk (default is 4kb)
 (setq read-process-output-max #x10000)  ; 64kb
